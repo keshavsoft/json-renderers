@@ -28,14 +28,15 @@ const buildTableData = ({ inColumns, inData, inColGroup, inFoot, inConfig } = {}
 
 const buildNavTabsData = ({ inData } = {}) => {
     const localData = inData;
-    let tabsArray = [];
+    let dataArray = [];
 
     if (Array.isArray(localData) && localData.length > 0) {
-        tabsArray = localData.map((row, idx) => {
+        dataArray = localData.map((row, idx) => {
             const id = row.id ? (String(row.id).startsWith("tab-") ? row.id : `tab-${row.id}`) : (row.VOUCHERNUMBER ? `tab-${row.VOUCHERNUMBER}` : `tab-${idx + 1}`);
             const label = row.label || row.REFERENCE || row.VOUCHERTYPENAME || `Tab ${idx + 1}`;
             const isActive = idx === 0;
             return {
+                ...row,
                 id,
                 label,
                 activeClass: isActive ? "active" : "",
@@ -46,7 +47,7 @@ const buildNavTabsData = ({ inData } = {}) => {
         });
     }
 
-    return { tabs: tabsArray };
+    return { data: dataArray, tabs: dataArray };
 };
 
 const definitions = {

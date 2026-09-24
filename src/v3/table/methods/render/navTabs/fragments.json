@@ -7,7 +7,7 @@
         },
         "jsonToSpec": {
             "operation": "loopArray",
-            "source": "tabs",
+            "source": "data",
             "template": {
                 "tagName": "li",
                 "attributes": {
@@ -41,7 +41,7 @@
         },
         "jsonToSpec": {
             "operation": "loopArray",
-            "source": "tabs",
+            "source": "data",
             "template": {
                 "tagName": "div",
                 "attributes": {
@@ -57,3 +57,4 @@
         "children": []
     }
 }
+
