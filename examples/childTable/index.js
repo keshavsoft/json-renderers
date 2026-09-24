@@ -25,9 +25,7 @@ const startFunc = async () => {
 
     table.methods.render({
         targetHtmlId: "table-container",
-        type: "navTabs",
-        inTabs: data,
-        inSkeletonType: "tableSimple"
+        type: "table"
     });
 };
 

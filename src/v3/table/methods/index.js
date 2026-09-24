@@ -14,26 +14,19 @@ const createMethods = ({ inTable } = {}) => {
 
     const render = ({
         targetHtmlId,
-        type = "table",
-        inType,
-        inSkeletonType,
-        inTabs
+        type = "table"
     } = {}) => {
-        const localTargetHtmlId = targetHtmlId;
-        const localType = inType ?? type;
-        const localSkeletonType = inSkeletonType;
-        const localTabs = inTabs;
+        const localTargetHtmlId = targetHtmlId ?? localTable?.containerId;
+        const localType = type;
 
         return renderFunc({
-            targetHtmlId: localTargetHtmlId,
-            type: localType,
+            inTargetHtmlId: localTargetHtmlId,
+            inType: localType,
             inColumns: activeColumns,
             inData: data,
-            inTabs: localTabs,
             inColGroup: colGroup,
             inFooterData: footerData,
-            inConfig: config,
-            inSkeletonType: localSkeletonType
+            inConfig: config
         });
     };
 

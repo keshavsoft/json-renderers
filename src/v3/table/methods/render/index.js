@@ -9,33 +9,31 @@ import tableClick from "./table/click/index.js";
 import navTabsSkeleton from "./navTabs/skeleton.json" with { type: "json" };
 import navTabsFragments from "./navTabs/fragments.json" with { type: "json" };
 
-const buildTableData = ({ columns, data, colGroup, foot, config } = {}) => {
+const buildTableData = ({ inColumns, inData, inColGroup, inFoot, inConfig } = {}) => {
+    const localColumns = inColumns;
+    const localData = inData;
+    const localColGroup = inColGroup;
+    const localFoot = inFoot;
+    const localConfig = inConfig;
+
     let dataAsJson = {};
-    dataAsJson.columns = columns;
-    dataAsJson.data = data;
-    dataAsJson.colGroup = colGroup;
-    dataAsJson.foot = foot;
-    dataAsJson.title = config?.title ?? config?.caption?.text ?? "";
-    dataAsJson.footerText = config?.footerText ?? "";
+    dataAsJson.columns = localColumns;
+    dataAsJson.data = localData;
+    dataAsJson.colGroup = localColGroup;
+    dataAsJson.foot = localFoot;
+    dataAsJson.title = localConfig?.title ?? localConfig?.caption?.text ?? "";
+    dataAsJson.footerText = localConfig?.footerText ?? "";
     return dataAsJson;
 };
 
-const buildNavTabsData = ({ tabs, data } = {}) => {
+const buildNavTabsData = ({ inData } = {}) => {
+    const localData = inData;
     let tabsArray = [];
 
-    if (Array.isArray(tabs) && tabs.length > 0) {
-        tabsArray = tabs.map((tab, idx) => ({
-            id: tab.id ?? `tab-${idx + 1}`,
-            label: tab.label ?? tab.title ?? `Tab ${idx + 1}`,
-            activeClass: tab.activeClass ?? (idx === 0 ? "active" : ""),
-            showActiveClass: tab.showActiveClass ?? (idx === 0 ? "show active" : ""),
-            isSelected: tab.isSelected ?? (idx === 0 ? "true" : "false"),
-            content: tab.content ?? ""
-        }));
-    } else if (Array.isArray(data) && data.length > 0) {
-        tabsArray = data.map((row, idx) => {
-            const id = `tab-${row.VOUCHERNUMBER ?? row.id ?? idx + 1}`;
-            const label = row.REFERENCE || row.VOUCHERTYPENAME || `Tab ${idx + 1}`;
+    if (Array.isArray(localData) && localData.length > 0) {
+        tabsArray = localData.map((row, idx) => {
+            const id = row.id ? (String(row.id).startsWith("tab-") ? row.id : `tab-${row.id}`) : (row.VOUCHERNUMBER ? `tab-${row.VOUCHERNUMBER}` : `tab-${idx + 1}`);
+            const label = row.label || row.REFERENCE || row.VOUCHERTYPENAME || `Tab ${idx + 1}`;
             const isActive = idx === 0;
             return {
                 id,
@@ -43,7 +41,7 @@ const buildNavTabsData = ({ tabs, data } = {}) => {
                 activeClass: isActive ? "active" : "",
                 showActiveClass: isActive ? "show active" : "",
                 isSelected: isActive ? "true" : "false",
-                content: ""
+                content: row.content ?? ""
             };
         });
     }
@@ -66,24 +64,20 @@ const definitions = {
 };
 
 const startFunc = ({
-    targetHtmlId,
     inTargetHtmlId,
-    type = "table",
-    inType,
+    inType = "table",
     inColumns,
     inData,
-    inTabs,
     inColGroup,
     inFooterData = [],
     inConfig = {},
     inSkeletonType = "default",
     inShowLog = false
 } = {}) => {
-    const localTargetHtmlId = inTargetHtmlId ?? targetHtmlId;
-    const localType = inType ?? type;
+    const localTargetHtmlId = inTargetHtmlId;
+    const localType = inType;
     const localColumns = inColumns;
     const localData = inData;
-    const localTabs = inTabs;
     const localColGroup = inColGroup;
     const localFooterData = inFooterData;
     const localConfig = inConfig;
@@ -94,12 +88,11 @@ const startFunc = ({
         const selectedControl = definitions[localType] ?? definitions.table;
 
         const dataAsJson = selectedControl.buildData({
-            columns: localColumns,
-            data: localData,
-            tabs: localTabs,
-            colGroup: localColGroup,
-            foot: localFooterData,
-            config: localConfig
+            inColumns: localColumns,
+            inData: localData,
+            inColGroup: localColGroup,
+            inFoot: localFooterData,
+            inConfig: localConfig
         });
 
         const rawSkeleton = selectedControl.skeleton[localSkeletonType] ?? selectedControl.skeleton.default ?? selectedControl.skeleton;

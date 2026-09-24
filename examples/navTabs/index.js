@@ -24,12 +24,10 @@ const startFunc = () => {
         }
     ];
 
-    const table = new Table();
+    const table = new Table({ data: tabsData });
     table.methods.render({
         targetHtmlId: "tabs-container",
-        type: "navTabs",
-        inTabs: tabsData,
-        inSkeletonType: "default"
+        type: "navTabs"
     });
 };
 
