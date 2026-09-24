@@ -1,4 +1,4 @@
-import renderNavTabs from "../../src/v11/table/methods/renderers/navTabs/index.js";
+import { Table } from "../../src/index.js";
 
 const startFunc = () => {
     const tabsData = [
@@ -24,8 +24,10 @@ const startFunc = () => {
         }
     ];
 
-    renderNavTabs({
+    const table = new Table();
+    table.methods.render({
         targetHtmlId: "tabs-container",
+        type: "navTabs",
         inTabs: tabsData,
         inSkeletonType: "default"
     });
