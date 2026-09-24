@@ -5,7 +5,7 @@ export const registerGlobal = (inFuncDefinition) => {
 
     globalThis.ks ??= {};
 
-    globalThis.ks.jsonToTagTable = {
+    globalThis.ks.jsonRenderers = {
         meta,
         Table: inFuncDefinition
     };
