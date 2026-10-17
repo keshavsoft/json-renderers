@@ -7,21 +7,9 @@ export const registerGlobal = (inDefinition) => {
 
     globalThis.ks ??= {};
 
-    const renderFunc = typeof localDefinition === "function"
-        ? localDefinition
-        : localDefinition.render;
-
-    const getSpecFunc = typeof localDefinition === "object"
-        ? localDefinition.getSpec
-        : undefined;
-
     globalThis.ks.jsonRenderers = {
         meta,
-        ...(typeof localDefinition === "object" ? localDefinition : {}),
-        render: renderFunc,
-        renderToDom: renderFunc,
-        domMount: localDefinition?.renderToDom,
-        ...(getSpecFunc ? { getSpec: getSpecFunc } : {})
+        render: localDefinition
     };
 };
 

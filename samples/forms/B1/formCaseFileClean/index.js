@@ -1,26 +1,22 @@
 import "../../../../docs/dist/v18/min.js";
 import "https://keshavsoft.github.io/json-to-tag/dist/v9/min.js";
 
-const loadJson = async file => {
-  const response = await fetch(new URL(file, import.meta.url));
-  if (!response.ok) throw new Error(`${file}: HTTP ${response.status}`);
-  return response.json();
-};
+import columns from "./columns.json" with { type: "json" };
+import data from "./data.json" with { type: "json" };
 
 const findById = (node, id) => node?.attributes?.id === id
   ? node
   : node?.children?.map(child => findById(child, id)).find(Boolean);
 
 const start = async () => {
-  const [columns, data] = await Promise.all([
-    loadJson("./columns.json"),
-    loadJson("./data.json")
-  ]);
-
-  const formSpec = window.ks.jsonRenderersBuild.render({
-    type: "form",
+  const formSpec = window.ks.jsonRenderers.render({
+    targetHtmlId: "form-container",
+    type: "form.stacked",
     columns,
-    data: [],
+    data,
+    appendPosition: "replace",
+    classToApply: "",
+    showLog: true,
     options: { formId: "case-file-form", submitLabel: "Save case" }
   });
 

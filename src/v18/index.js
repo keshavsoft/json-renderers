@@ -1,12 +1,13 @@
 import registerGlobal from "./registerGlobal.js";
-import validateConfig from "./validateConfig.js";
-import getSpec from "./getSpec.js";
+
+import guardFunc from "json-renderers-guard";
+
 import buildSpec from "./buildSpec/index.js";
 import renderToDom from "./renderToDom/index.js";
 
 // Main orchestrator: coordinates validation, spec building, and DOM rendering
-const render = (options = {}) => {
-    const config = validateConfig(options);
+const render = (config = {}) => {
+    guardFunc(config);
     const showLog = config?.showLog;
 
     if (showLog) console.log("first : ", config?.columns, config?.data, config?.appendPosition);
@@ -26,7 +27,7 @@ const render = (options = {}) => {
     });
 };
 
-registerGlobal({ render, getSpec, validateConfig, buildSpec, renderToDom });
+registerGlobal(render);
 
-export { render, getSpec, validateConfig, buildSpec, renderToDom };
+export { render };
 export default render;
