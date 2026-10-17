@@ -1,4 +1,4 @@
-import "../../../../../json-renderers-build/docs/dist/v22/min.js";
+import "../../../../docs/dist/v18/min.js";
 import "https://keshavsoft.github.io/json-to-tag/dist/v9/min.js";
 
 const loadJson = async file => {
@@ -17,7 +17,8 @@ const start = async () => {
     loadJson("./data.json")
   ]);
 
-  const formSpec = window.ks.jsonRenderersBuildForm.render({
+  const formSpec = window.ks.jsonRenderersBuild.render({
+    type: "form",
     columns,
     data: [],
     options: { formId: "case-file-form", submitLabel: "Save case" }
