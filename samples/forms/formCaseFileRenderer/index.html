@@ -1,16 +1,34 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Case File Form</title>
+  <title>Case file form renderer · JSON Renderers</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
-  <main class="container py-4" style="max-width: 720px">
-    <h1 class="h3 mb-3">Case file form</h1>
-    <div id="form-container">Building form…</div>
-    <div id="submit-result" class="alert alert-success mt-3 d-none" role="status"></div>
+  <main class="container py-5" style="max-width: 760px">
+    <header class="mb-4">
+      <h1 class="h2 mb-2">Case file form renderer</h1>
+      <p class="text-secondary mb-0">Build prepares the form and its linked data lists. JSON-to-tag renders both specs.</p>
+    </header>
+
+    <section class="card border-0 shadow-sm mb-3" aria-labelledby="lists-heading">
+      <div class="card-body p-4">
+        <h2 id="lists-heading" class="h5">Data lists</h2>
+        <p id="data-list-status" class="small text-secondary mb-2" role="status" aria-live="polite">Building data lists…</p>
+        <div id="data-list-container"></div>
+      </div>
+    </section>
+
+    <section class="card border-0 shadow-sm" aria-labelledby="form-heading">
+      <div class="card-body p-4">
+        <h2 id="form-heading" class="h5">Form</h2>
+        <p id="form-status" class="small text-secondary" role="status" aria-live="polite">Building form…</p>
+        <div id="form-container"></div>
+        <p id="form-result" class="small text-success mt-3 mb-0" role="status" aria-live="polite"></p>
+      </div>
+    </section>
   </main>
   <script type="module" src="./index.js"></script>
 </body>
