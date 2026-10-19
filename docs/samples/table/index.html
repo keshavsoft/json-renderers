@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Table Documentation Hub | json-renderers</title>
+  <meta name="description"
+    content="Navigation hub for json-renderers Table component: choose between the modern direct CDN ES module import guide and the global window.ks enterprise runtime guide." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['Fira Code', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #ffffff;
+      color: #1e293b;
+    }
+
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+
+    .card-hover {
+      transition: all 0.2s ease-in-out;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.08);
+    }
+  </style>
+</head>
+
+<body class="bg-white text-slate-800 min-h-screen flex flex-col antialiased">
+
+
+  <!-- Main Content Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-10">
+
+    <!-- Breadcrumb -->
+    <div class="flex items-center gap-2 text-xs text-slate-500 font-mono">
+      <a href="../../index.html" class="hover:text-slate-900 transition flex items-center gap-1 font-medium">
+        <span>🏠</span> Home
+      </a>
+      <span>/</span>
+      <a href="../../index.html" class="hover:text-slate-900 transition text-slate-400">docs</a>
+      <span>/</span>
+      <a href="../index.html" class="hover:text-slate-900 transition text-slate-400">samples</a>
+      <span>/</span>
+      <span class="text-emerald-600 font-semibold font-mono">table</span>
+    </div>
+
+    <!-- Header Section -->
+    <div class="space-y-2">
+      <div
+        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-mono font-semibold text-emerald-800">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        Table Component &bull; Navigation Hub
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Table Component Guides
+      </h1>
+      <p class="text-slate-600 text-sm sm:text-base max-w-3xl leading-relaxed">
+        Choose your integration path for rendering tabular data from JSON. Explore the zero-build direct CDN ES module
+        import guide or the enterprise <code
+          class="text-emerald-700 font-mono bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">window.ks</code>
+        runtime walkthrough.
+      </p>
+    </div>
+
+    <!-- Two Tracks Showcase Grid (Matching SubDoc design on white background) -->
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+      <!-- Track 1: Using CDN Card -->
+      <div
+        class="bg-white p-6 sm:p-8 rounded-3xl border border-emerald-300 flex flex-col justify-between relative overflow-hidden group hover:border-emerald-500 transition shadow-sm hover:shadow-md">
+        <div
+          class="absolute -right-12 -top-12 w-48 h-48 bg-emerald-50 rounded-full blur-3xl pointer-events-none group-hover:bg-emerald-100/60 transition">
+        </div>
+        <div class="space-y-4 relative z-10">
+          <div class="flex items-center justify-between">
+            <span
+              class="px-2.5 py-1 rounded-full text-xs font-mono font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Quick Concept &bull; 3 min read
+            </span>
+            <span class="text-3xl">⚡</span>
+          </div>
+
+          <h2 class="text-2xl font-bold text-slate-900 group-hover:text-emerald-700 transition">Using CDN Import</h2>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            Fast, zero-build integration directly from jsDelivr using modern JavaScript ES modules. Ideal for rapid
+            prototyping, modern web applications, and live interactive table demos.
+          </p>
+
+          <div class="space-y-2 pt-2">
+            <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider font-mono">What you will learn:
+            </div>
+            <ul class="text-xs text-slate-600 space-y-2.5">
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-600 font-bold font-mono">1.</span>
+                <span><strong>Zero-Build CDN Import:</strong> Direct <code
+                    class="text-emerald-700 font-mono bg-emerald-50 px-1 rounded">import renderDirect from "..."</code>
+                  from jsDelivr.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-600 font-bold font-mono">2.</span>
+                <span><strong>render Function Parameters:</strong> Specifying <code
+                    class="text-emerald-700 font-mono">type: "table"</code>, <code
+                    class="text-emerald-700 font-mono">data</code>, <code
+                    class="text-emerald-700 font-mono">columns</code>, and target container.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-600 font-bold font-mono">3.</span>
+                <span><strong>Interactive Sandbox:</strong> Live column toggles, row slider controls, and instant DOM
+                  updates.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-600 font-bold font-mono">4.</span>
+                <span><strong>Lifecycle Telemetry:</strong> Real-time logging of rendering pipeline and container
+                  replacement.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="pt-6 relative z-10">
+          <a href="cdn.html"
+            class="w-full py-3 px-4 rounded-xl font-semibold text-sm bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white flex items-center justify-center gap-2 shadow-sm transition">
+            <span>Read CDN Guide &rarr;</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Track 2: window.ks Global Runtime Card -->
+      <div
+        class="bg-white p-6 sm:p-8 rounded-3xl border border-teal-300 flex flex-col justify-between relative overflow-hidden group hover:border-teal-500 transition shadow-sm hover:shadow-md">
+        <div
+          class="absolute -right-12 -top-12 w-48 h-48 bg-teal-50 rounded-full blur-3xl pointer-events-none group-hover:bg-teal-100/60 transition">
+        </div>
+        <div class="space-y-4 relative z-10">
+          <div class="flex items-center justify-between">
+            <span
+              class="px-2.5 py-1 rounded-full text-xs font-mono font-semibold bg-teal-50 text-teal-800 border border-teal-200 flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-teal-500"></span> Deep Dive &bull; 15 min read
+            </span>
+            <span class="text-3xl">🌐</span>
+          </div>
+
+          <h2 class="text-2xl font-bold text-slate-900 group-hover:text-teal-700 transition">window.ks Global Runtime
+          </h2>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            Exhaustive enterprise guide on using the pre-bundled <code
+              class="text-teal-700 font-mono font-semibold">window.ks.jsonRenderers.renderToDom</code> API for
+            multi-page applications, server templates, and legacy script tags.
+          </p>
+
+          <div class="space-y-2 pt-2">
+            <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider font-mono">What you will learn:
+            </div>
+            <ul class="text-xs text-slate-600 space-y-2.5">
+              <li class="flex items-start gap-2">
+                <span class="text-teal-600 font-bold font-mono">1.</span>
+                <span><strong>Global Runtime Setup:</strong> Attaching <code
+                    class="text-teal-700 font-mono bg-teal-50 px-1 rounded">window.ks</code> globally on page
+                  load.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-teal-600 font-bold font-mono">2.</span>
+                <span><strong>renderToDom API:</strong> Complete configuration options for table column schemas and data
+                  binding.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-teal-600 font-bold font-mono">3.</span>
+                <span><strong>Multi-Page Integration:</strong> Clean integration into traditional admin consoles and
+                  server-rendered views.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-teal-600 font-bold font-mono">4.</span>
+                <span><strong>Zero Overhead:</strong> Lightweight native browser DOM generation with no third-party UI
+                  framework bloat.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="pt-6 relative z-10">
+          <a href="windowKs.html"
+            class="w-full py-3 px-4 rounded-xl font-semibold text-sm bg-gradient-to-r from-teal-600 to-indigo-600 hover:from-teal-700 hover:to-indigo-700 text-white flex items-center justify-center gap-2 shadow-sm transition">
+            <span>Read window.ks Guide &rarr;</span>
+          </a>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- House-Building Story for Table -->
+    <section class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+      <div class="space-y-1">
+        <span class="text-xs font-mono font-semibold text-emerald-700 uppercase tracking-wider">Concept &bull; Mental
+          Model</span>
+        <h2 class="text-2xl font-bold text-slate-900">The House-Building Story for Tables</h2>
+        <p class="text-sm text-slate-600">How json-renderers constructs an HTML table from JSON data</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-2xl">📐</span>
+            <span class="px-2 py-0.5 text-xs font-mono rounded bg-emerald-100 text-emerald-800 font-semibold">1.
+              Architect</span>
+          </div>
+          <h3 class="text-base font-bold text-slate-900">json-renderers-build</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Prepares the blueprint. It takes your raw row objects and column array, and converts them into a declarative
+            JSON tree specifying <code class="text-emerald-700 font-mono">&lt;table&gt;</code>, <code
+              class="text-emerald-700 font-mono">&lt;thead&gt;</code>, and <code
+              class="text-emerald-700 font-mono">&lt;tbody&gt;</code>.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-2xl">👷</span>
+            <span class="px-2 py-0.5 text-xs font-mono rounded bg-teal-100 text-teal-800 font-semibold">2. Worker</span>
+          </div>
+          <h3 class="text-base font-bold text-slate-900">@keshavsoft/json-to-tag</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Builds the physical elements. Reads the blueprint node by node and instantiates real browser DOM elements
+            (<code class="text-teal-700 font-mono">document.createElement</code>) with class names and attributes.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-2xl">📋</span>
+            <span class="px-2 py-0.5 text-xs font-mono rounded bg-indigo-100 text-indigo-800 font-semibold">3. Site
+              Manager</span>
+          </div>
+          <h3 class="text-base font-bold text-slate-900">json-renderers</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Mounts the finished product. Validates your configuration, calls the architect, directs the construction
+            worker, and mounts the table cleanly into your target <code
+              class="text-indigo-700 font-mono">#container</code>.
+          </p>
+        </div>
+      </div>
+
+      <!-- Golden Rule Banner -->
+      <div
+        class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900 flex items-start gap-3">
+        <span class="text-lg">💡</span>
+        <div>
+          <strong class="font-semibold">Golden Rule:</strong> You never write manual <code
+            class="font-mono bg-white px-1 py-0.5 rounded border border-emerald-200">&lt;tr&gt;</code> / <code
+            class="font-mono bg-white px-1 py-0.5 rounded border border-emerald-200">&lt;td&gt;</code> loops or unsafe
+          <code class="font-mono bg-white px-1 py-0.5 rounded border border-emerald-200">innerHTML</code> string
+          concatenation. Pass JSON data and column keys — the pipeline generates a valid, styled, accessible table
+          automatically.
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Clean Light Footer -->
+  <footer class="border-t border-slate-200 bg-slate-50 py-8 mt-12">
+    <div
+      class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-600">
+      <div>
+        <span class="text-slate-900 font-semibold">json-renderers</span> &bull; Table Documentation Hub
+      </div>
+      <div class="flex items-center gap-4 flex-wrap">
+        <a href="../../index.html" class="hover:text-emerald-600 transition">Main Docs</a>
+        <a href="../index.html" class="hover:text-emerald-600 transition">Samples Hub</a>
+        <a href="cdn.html" class="hover:text-emerald-600 transition font-medium">Using CDN</a>
+        <a href="windowKs.html" class="hover:text-emerald-600 transition font-medium">window.ks</a>
+        <a href="../select/index.html" class="hover:text-blue-600 transition">Select Docs</a>
+        <a href="../datalist/index.html" class="hover:text-purple-600 transition">Datalist Docs</a>
+        <a href="https://github.com/keshavsoft/json-renderers" target="_blank" rel="noopener noreferrer"
+          class="hover:underline">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>

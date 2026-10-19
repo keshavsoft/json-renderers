@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Samples &amp; Component Guides | json-renderers</title>
+  <meta name="description"
+    content="Explore documentation, live interactive samples, CDN import patterns, and window.ks global runtime guides for Table, Select, and Datalist components." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['Fira Code', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #ffffff;
+      color: #1e293b;
+    }
+
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+
+    .card-hover {
+      transition: all 0.2s ease-in-out;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.08);
+    }
+  </style>
+</head>
+
+<body class="bg-white text-slate-800 min-h-screen flex flex-col antialiased">
+
+
+  <!-- Main Content Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-10">
+
+    <!-- Breadcrumb (Matching SubDoc design) -->
+    <div class="flex items-center gap-2 text-xs text-slate-500 font-mono">
+      <a href="../index.html" class="hover:text-slate-900 transition flex items-center gap-1 font-medium">
+        <span>🏠</span> Home
+      </a>
+      <span>/</span>
+      <span class="text-slate-400">docs</span>
+      <span>/</span>
+      <span class="text-indigo-600 font-semibold">samples</span>
+    </div>
+
+    <!-- Header Section -->
+    <div class="space-y-2">
+      <div
+        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-xs font-mono font-semibold text-indigo-800">
+        <span class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>
+        Component Suite &bull; Interactive Samples Hub
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Explore the 3 Core JSON Renderers
+      </h1>
+      <p class="text-slate-600 text-sm sm:text-base max-w-3xl leading-relaxed">
+        Fast, beginner-friendly component guides structured around the KeshavSoft declarative DOM architecture. Each
+        component is documented with its complete HTML transformation story, a direct CDN ES module import guide, and a
+        global <code
+          class="text-emerald-700 font-mono bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">window.ks</code>
+        runtime walkthrough.
+      </p>
+    </div>
+
+    <!-- 3 Tracks Showcase Grid (Styled exactly like the subDoc image, on white background) -->
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+      <!-- Track 1: Table Renderer Card -->
+      <div
+        class="bg-white p-6 sm:p-8 rounded-3xl border border-emerald-300 flex flex-col justify-between relative overflow-hidden group hover:border-emerald-500 transition shadow-sm hover:shadow-md">
+        <div
+          class="absolute -right-12 -top-12 w-48 h-48 bg-emerald-50 rounded-full blur-3xl pointer-events-none group-hover:bg-emerald-100/60 transition">
+        </div>
+        <div class="space-y-4 relative z-10">
+          <div class="flex items-center justify-between">
+            <span
+              class="px-2.5 py-1 rounded-full text-xs font-mono font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Tabular Grid &bull; Multi-Column
+            </span>
+            <span class="text-3xl">📊</span>
+          </div>
+
+          <h2 class="text-2xl font-bold text-slate-900 group-hover:text-emerald-700 transition">Table Renderer</h2>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            Fast, structured tabular grid generation from JSON row arrays. Automatically creates table headers, rows,
+            striped styling, and hover feedback.
+          </p>
+
+          <div class="space-y-2 pt-2">
+            <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider font-mono">What you will learn:
+            </div>
+            <ul class="text-xs text-slate-600 space-y-2.5">
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-600 font-bold font-mono">1.</span>
+                <span><strong>The Pipeline:</strong> How <code
+                    class="text-indigo-700 font-mono bg-indigo-50 px-1 rounded">json-renderers-build</code> compiles
+                  column/row JSON into tags.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-600 font-bold font-mono">2.</span>
+                <span><strong>CDN Integration:</strong> Direct ES module import from jsDelivr with zero build
+                  step.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-600 font-bold font-mono">3.</span>
+                <span><strong>window.ks Runtime:</strong> Standard global runtime API for multi-page
+                  applications.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-600 font-bold font-mono">4.</span>
+                <span><strong>Interactive Playground:</strong> Live DOM mounting sandbox with dynamic row
+                  inspection.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="pt-6 space-y-2 relative z-10">
+          <a href="table/index.html"
+            class="w-full py-3 px-4 rounded-xl font-semibold text-sm bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white flex items-center justify-center gap-2 shadow-sm transition">
+            <span>Read Table Guide &rarr;</span>
+          </a>
+          <div class="grid grid-cols-2 gap-2 pt-1 text-center">
+            <a href="table/cdn.html"
+              class="py-2 px-2.5 rounded-lg border border-slate-200 hover:border-emerald-300 hover:bg-emerald-50/50 text-slate-700 hover:text-emerald-800 text-xs font-medium transition">
+              ⚡ Using CDN
+            </a>
+            <a href="table/windowKs.html"
+              class="py-2 px-2.5 rounded-lg border border-slate-200 hover:border-emerald-300 hover:bg-emerald-50/50 text-slate-700 hover:text-emerald-800 text-xs font-medium transition">
+              🌐 window.ks
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Track 2: Select Renderer Card -->
+      <div
+        class="bg-white p-6 sm:p-8 rounded-3xl border border-blue-300 flex flex-col justify-between relative overflow-hidden group hover:border-blue-500 transition shadow-sm hover:shadow-md">
+        <div
+          class="absolute -right-12 -top-12 w-48 h-48 bg-blue-50 rounded-full blur-3xl pointer-events-none group-hover:bg-blue-100/60 transition">
+        </div>
+        <div class="space-y-4 relative z-10">
+          <div class="flex items-center justify-between">
+            <span
+              class="px-2.5 py-1 rounded-full text-xs font-mono font-semibold bg-blue-50 text-blue-800 border border-blue-200 flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Form Input &bull; Dropdown Menu
+            </span>
+            <span class="text-3xl">▣</span>
+          </div>
+
+          <h2 class="text-2xl font-bold text-slate-900 group-hover:text-blue-700 transition">Select Renderer</h2>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            Constructs accessible native HTML <code class="text-blue-700 font-mono font-semibold">&lt;select&gt;</code>
+            dropdowns from string arrays or value/label objects with active selection management.
+          </p>
+
+          <div class="space-y-2 pt-2">
+            <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider font-mono">What you will learn:
+            </div>
+            <ul class="text-xs text-slate-600 space-y-2.5">
+              <li class="flex items-start gap-2">
+                <span class="text-blue-600 font-bold font-mono">1.</span>
+                <span><strong>The Pipeline:</strong> Transforming options arrays into declarative DOM
+                  specifications.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-blue-600 font-bold font-mono">2.</span>
+                <span><strong>CDN Integration:</strong> Clean ES module import with option addition playground.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-blue-600 font-bold font-mono">3.</span>
+                <span><strong>window.ks Runtime:</strong> Enterprise script integration for corporate admin
+                  portals.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-blue-600 font-bold font-mono">4.</span>
+                <span><strong>Event Handling:</strong> Live change listener with instantaneous selection
+                  telemetry.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="pt-6 space-y-2 relative z-10">
+          <a href="select/index.html"
+            class="w-full py-3 px-4 rounded-xl font-semibold text-sm bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white flex items-center justify-center gap-2 shadow-sm transition">
+            <span>Read Select Guide &rarr;</span>
+          </a>
+          <div class="grid grid-cols-2 gap-2 pt-1 text-center">
+            <a href="select/cdn.html"
+              class="py-2 px-2.5 rounded-lg border border-slate-200 hover:border-blue-300 hover:bg-blue-50/50 text-slate-700 hover:text-blue-800 text-xs font-medium transition">
+              ⚡ Using CDN
+            </a>
+            <a href="select/windowks.html"
+              class="py-2 px-2.5 rounded-lg border border-slate-200 hover:border-blue-300 hover:bg-blue-50/50 text-slate-700 hover:text-blue-800 text-xs font-medium transition">
+              🌐 window.ks
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Track 3: Datalist Renderer Card -->
+      <div
+        class="bg-white p-6 sm:p-8 rounded-3xl border border-purple-300 flex flex-col justify-between relative overflow-hidden group hover:border-purple-500 transition shadow-sm hover:shadow-md">
+        <div
+          class="absolute -right-12 -top-12 w-48 h-48 bg-purple-50 rounded-full blur-3xl pointer-events-none group-hover:bg-purple-100/60 transition">
+        </div>
+        <div class="space-y-4 relative z-10">
+          <div class="flex items-center justify-between">
+            <span
+              class="px-2.5 py-1 rounded-full text-xs font-mono font-semibold bg-purple-50 text-purple-800 border border-purple-200 flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span> Native Autocomplete &bull; Input List
+            </span>
+            <span class="text-3xl">🔍</span>
+          </div>
+
+          <h2 class="text-2xl font-bold text-slate-900 group-hover:text-purple-700 transition">Datalist Renderer</h2>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            Binds native HTML5 <code class="text-purple-700 font-mono font-semibold">&lt;datalist&gt;</code> suggestion
+            popovers to text inputs with instant autocomplete without heavy JavaScript plugins.
+          </p>
+
+          <div class="space-y-2 pt-2">
+            <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider font-mono">What you will learn:
+            </div>
+            <ul class="text-xs text-slate-600 space-y-2.5">
+              <li class="flex items-start gap-2">
+                <span class="text-purple-600 font-bold font-mono">1.</span>
+                <span><strong>The Pipeline:</strong> Connecting <code
+                    class="text-purple-700 font-mono">&lt;input list&gt;</code> to <code
+                    class="text-purple-700 font-mono">&lt;datalist&gt;</code> containers.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-purple-600 font-bold font-mono">2.</span>
+                <span><strong>CDN Integration:</strong> Rapid search suggestion generator mounted via jsDelivr
+                  CDN.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-purple-600 font-bold font-mono">3.</span>
+                <span><strong>window.ks Runtime:</strong> Global browser mounting for native search inputs.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-purple-600 font-bold font-mono">4.</span>
+                <span><strong>Keystroke Tracking:</strong> Live suggestion matching and user search feedback.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="pt-6 space-y-2 relative z-10">
+          <a href="datalist/index.html"
+            class="w-full py-3 px-4 rounded-xl font-semibold text-sm bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white flex items-center justify-center gap-2 shadow-sm transition">
+            <span>Read Datalist Guide &rarr;</span>
+          </a>
+          <div class="grid grid-cols-2 gap-2 pt-1 text-center">
+            <a href="datalist/cdn.html"
+              class="py-2 px-2.5 rounded-lg border border-slate-200 hover:border-purple-300 hover:bg-purple-50/50 text-slate-700 hover:text-purple-800 text-xs font-medium transition">
+              ⚡ Using CDN
+            </a>
+            <a href="datalist/windowks.html"
+              class="py-2 px-2.5 rounded-lg border border-slate-200 hover:border-purple-300 hover:bg-purple-50/50 text-slate-700 hover:text-purple-800 text-xs font-medium transition">
+              🌐 window.ks
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+  </main>
+
+  <!-- Clean Light Footer -->
+  <footer class="border-t border-slate-200 bg-slate-50 py-8 mt-12">
+    <div
+      class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-600">
+      <div>
+        <span class="text-slate-900 font-semibold">json-renderers</span> &bull; Samples Hub for Table, Select, and
+        Datalist
+      </div>
+      <div class="flex items-center gap-4 flex-wrap">
+        <a href="../index.html" class="hover:text-indigo-600 transition">Main Docs</a>
+        <a href="table/index.html" class="hover:text-emerald-600 transition">Table Docs</a>
+        <a href="select/index.html" class="hover:text-blue-600 transition">Select Docs</a>
+        <a href="datalist/index.html" class="hover:text-purple-600 transition">Datalist Docs</a>
+        <a href="https://github.com/keshavsoft/json-renderers" target="_blank" rel="noopener noreferrer"
+          class="hover:underline">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
