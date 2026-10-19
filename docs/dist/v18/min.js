@@ -523,7 +523,7 @@ const Nt = (t, o) => {
   return e.textContent = e.textContent.replace("rowValue", t), e.attributes.value = e.attributes.value.replace("rowValue", t), e;
 }, ee = (t, o) => {
   const e = o == null ? void 0 : o.columnName, r = te(e, p.buildOption);
-  return constBuiltOptions = h(t, r), constBuiltOptions;
+  return h(t, r);
 }, oe = ({ data: t, columns: o }) => o.map((e) => ee(t, e)), re = (t = {}) => {
   const { data: o, columns: e } = Zt(t);
   return oe({ data: o, columns: e });
