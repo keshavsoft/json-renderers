@@ -1,5 +1,5 @@
 const it = {
-  version: "v18.0.0",
+  version: "v19.0.0",
   description: "build table from store data and render to DOM uses json-to-spec, json-to-dom under the hood"
 }, ct = (t) => {
   const a = t;
@@ -87,29 +87,29 @@ const it = {
   if (!a || typeof a != "object" || Array.isArray(a))
     throw new TypeError("Config must be an object");
   return mt(a), ht(a), ft(a), !0;
-}, yt = "table", Ct = "", wt = [], gt = [], $t = "", Nt = "replace", Tt = !1, g = {
+}, yt = "table", Ct = "", wt = [], $t = [], gt = "", Nt = "replace", Tt = !1, $ = {
   type: yt,
   targetHtmlId: Ct,
   data: wt,
-  columns: gt,
-  classToApply: $t,
+  columns: $t,
+  classToApply: gt,
   appendPosition: Nt,
   showLog: Tt
 }, G = (t) => {
   const a = typeof t == "object" && t !== null ? t.inKey ?? t.key : t;
-  return a && a in g ? g[a] : { ...g };
+  return a && a in $ ? $[a] : { ...$ };
 };
-Object.assign(G, g);
-const $ = (t) => {
+Object.assign(G, $);
+const g = (t) => {
   const a = (t == null ? void 0 : t.inConfig) ?? t;
   if (!a || typeof a != "object" || Array.isArray(a))
     throw new TypeError("Config must be an object");
   return P(a), q(a), !0;
 };
-$.getSpec = G;
-$.configSpec = g;
-$.guardSpec = P;
-$.guardMount = q;
+g.getSpec = G;
+g.configSpec = $;
+g.guardSpec = P;
+g.guardMount = q;
 const xt = {
   version: "1.22.0",
   name: "json-renderers-build"
@@ -584,7 +584,7 @@ const Rt = (t, a) => {
     templateKey: "buildBodyCell",
     func: "applyTemplate"
   }
-], ge = [
+], $e = [
   {
     narration: "Prepend an empty cell into the table footer row if footer row is present.",
     destinationPath: {
@@ -605,7 +605,7 @@ const Rt = (t, a) => {
     templateKey: "emptyCell",
     func: "applyTemplate"
   }
-], R = { applyTemplate: p }, $e = (t = {}, a = {}, e = !1, o = []) => {
+], R = { applyTemplate: p }, ge = (t = {}, a = {}, e = !1, o = []) => {
   let n = t, s = a;
   t && typeof t == "object" && "inTableSpec" in t && (n = t.inTableSpec, s = t.inSerial || a);
   const i = {
@@ -623,7 +623,7 @@ const Rt = (t, a) => {
   };
   f(we, i, R, b, e, o);
   const l = C(n, "table-footer-row");
-  return l && Array.isArray(l.children) && l.children.length > 0 && f(ge, i, R, b, e, o), n;
+  return l && Array.isArray(l.children) && l.children.length > 0 && f($e, i, R, b, e, o), n;
 }, Ne = [
   {
     narration: "Append the options column width to the table colgroup.",
@@ -727,7 +727,7 @@ const Rt = (t, a) => {
   return l && Array.isArray(l.children) && l.children.length > 0 && f(Te, i, v, b, e, o), n;
 }, X = ({ inOptions: t = {}, inBase: a, showLog: e = !1, returnLog: o = [] }) => {
   const n = t, s = a;
-  return (n.showSerial || n.serial) && $e(s, n.serial || {}, e, o), (n.showOptions || n.options) && xe(s, n.options || {}, e, o), s;
+  return (n.showSerial || n.serial) && ge(s, n.serial || {}, e, o), (n.showOptions || n.options) && xe(s, n.options || {}, e, o), s;
 }, E = { fromCollection: m, twoDimensional: N }, Pe = (t = {}, a = !1, e = []) => {
   const o = t, n = o.columns || [], s = o.data || [], r = o.options, i = structuredClone(Yt), l = {
     data: {
@@ -1135,7 +1135,7 @@ const Rt = (t, a) => {
 }, I = ({ inOptions: t = {}, options: a = {} } = {}) => {
   const e = t && Object.keys(t).length > 0 ? t : a, o = structuredClone(wa), n = o.children[0], s = o.children[1];
   return e.label && (n.textContent = e.label), e.id && (n.attributes.for = e.id, s.attributes.id = e.id), e.placeholder && (s.attributes.placeholder = e.placeholder), e.class && (s.attributes.class = e.class), e.name && (s.attributes.name = e.name), e.type && (s.attributes.type = e.type), e.wrapperClass && (o.attributes.class = e.wrapperClass), e.labelClass && (n.attributes.class = e.labelClass), o;
-}, ga = "div", $a = {
+}, $a = "div", ga = {
   class: "d-flex align-items-center gap-2"
 }, Na = [
   {
@@ -1165,8 +1165,8 @@ const Rt = (t, a) => {
     }
   }
 ], Ta = {
-  tagName: ga,
-  attributes: $a,
+  tagName: $a,
+  attributes: ga,
   children: Na
 }, j = ({ inOptions: t = {}, options: a = {} } = {}) => {
   const e = t && Object.keys(t).length > 0 ? t : a, o = structuredClone(Ta), n = o.children[0], s = o.children[1], r = o.children[2];
@@ -1679,16 +1679,16 @@ const k = ({ inOptions: t = {}, options: a = {} } = {}) => {
     buildInlineField: "buildInlineFieldWithButton",
     buildInlineRequiredField: "buildInlineRequiredFieldWithButton"
   }
-}, go = {
+}, $o = {
   fieldTemplates: {},
   buttonFieldTemplates: {}
-}, $o = {
+}, go = {
   fieldTemplates: {},
   buttonFieldTemplates: {}
 }, No = {
   inline: wo,
-  stacked: go,
-  threeColumns: $o
+  stacked: $o,
+  threeColumns: go
 }, To = {
   actions: []
 }, xo = {
@@ -1906,12 +1906,14 @@ const Ho = ({
   inColumns: t,
   inType: a = "table",
   inData: e,
-  inShowLog: o = !1
+  inShowLog: o = !1,
+  inOptions: n
 } = {}) => at({
   type: a,
   data: e ?? [],
   columns: t,
-  showLog: o
+  showLog: o,
+  options: n
 }), Mo = {
   version: "v10",
   description: "JSON-to-DOM engine with SVG namespace support, mixed text content, and centralized traversal"
@@ -2028,15 +2030,18 @@ const en = ({
   const c = document.getElementById(s);
   return c ? (Array.isArray(l) || l instanceof NodeList || l instanceof HTMLCollection ? r === "prepend" ? c.prepend(...l) : c.append(...l) : r === "prepend" ? c.prepend(l) : (c.innerHTML = "", c.append(l)), i && console.log("renderToDom 2 (mounted):", c), c) : null;
 }, an = (t = {}) => {
-  $(t), (t == null ? void 0 : t.showLog) && console.log("first : ", t == null ? void 0 : t.columns, t == null ? void 0 : t.data, t == null ? void 0 : t.appendPosition);
-  const e = Ho({
+  g(t);
+  const a = t == null ? void 0 : t.showLog, e = t == null ? void 0 : t.options;
+  a && console.log("first : ", t == null ? void 0 : t.options, t == null ? void 0 : t.columns, t == null ? void 0 : t.data, t == null ? void 0 : t.appendPosition);
+  const o = Ho({
     inColumns: t.columns,
     inData: t.data,
     inType: t.type,
-    inShowLog: t.showLog
+    inShowLog: t.showLog,
+    inOptions: e
   });
   return en({
-    inSpec: e,
+    inSpec: o,
     inTargetHtmlId: t.targetHtmlId,
     inAppendPosition: t.appendPosition,
     inShowLog: t.showLog

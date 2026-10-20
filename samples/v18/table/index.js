@@ -1,4 +1,4 @@
-import render from "../../../docs/dist/v18/min.js";
+import render from "../../../docs/dist/v19/min.js";
 import "https://keshavsoft.github.io/json-to-tag/dist/v9/min.js";
 
 const data = [
@@ -25,7 +25,10 @@ const start = () => {
       targetHtmlId: "dom-render-container",
       classToApply: "",
       appendPosition: "",
-
+      options: {
+        showSerial: true
+      },
+      showLog: true
     });
 
     render({
