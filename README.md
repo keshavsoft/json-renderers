@@ -8,9 +8,8 @@
 [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live%20Docs%20%26%20Workbench-10b981?style=flat&logo=github&logoColor=white)](https://keshavsoft.github.io/json-renderers/)
 [![Layer: DOM Runtime](https://img.shields.io/badge/Layer-DOM%20Mounting%20Runtime-indigo.svg)](#the-story-of-json-renderers)
 
-🌐 **Live Documentation & Interactive Workbench**: [https://keshavsoft.github.io/json-renderers/](https://keshavsoft.github.io/json-renderers/)  
-📊 **HTML Table Process & Architecture**: [https://keshavsoft.github.io/json-renderers/table/index.html](https://keshavsoft.github.io/json-renderers/table/index.html)  
-▣ **Select Dropdown Complete Guide**: [https://keshavsoft.github.io/json-renderers/aboutSelect.html](https://keshavsoft.github.io/json-renderers/aboutSelect.html)  
+🌐 **Live Interactive Documentation Suite & Playground**: [https://keshavsoft.github.io/dom-builder/](https://keshavsoft.github.io/dom-builder/)  
+📦 **Runtime GitHub Pages**: [https://keshavsoft.github.io/json-renderers/](https://keshavsoft.github.io/json-renderers/)  
 
 ---
 
