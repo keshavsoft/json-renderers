@@ -1,18 +1,7 @@
 import render from "../../../docs/dist/v19/min.js";
 import "https://keshavsoft.github.io/json-to-tag/dist/v9/min.js";
-
-const data = [
-  { itemName: "Keyboard", category: "Accessories" },
-  { itemName: "Krishna Mouse", category: "Accessories" },
-  { itemName: "Monitor", category: "Displays" },
-  { itemName: "KeshavSoft Laptop", category: "Computers" },
-  { itemName: "USB Cable", category: "Accessories" }
-];
-
-const columns = [
-  { columnName: "itemName", width: "60%" },
-  { columnName: "category", width: "40%" }
-];
+import data from "./data.json" with {type: "json"};
+import columns from "./columns.json" with {type: "json"};
 
 const start = () => {
   const container = document.getElementById("dom-render-container");
@@ -26,7 +15,7 @@ const start = () => {
       classToApply: "",
       appendPosition: "",
       options: {
-        showSerial: true
+        showSerial: false
       },
       showLog: true
     });
