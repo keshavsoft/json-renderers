@@ -1,4 +1,4 @@
-import render from "../../docs/dist/v18/min.js";
+import render from "../../docs/dist/v20/min.js";
 import "https://keshavsoft.github.io/json-to-tag/dist/v9/min.js";
 
 const data = [
@@ -19,7 +19,6 @@ const start = () => {
   const status = document.getElementById("status");
 
   try {
-    // Build the table specification using the table renderer.
     render({
       type: "table.withFooter", columns, data,
       targetHtmlId: "dom-render-container",
@@ -27,6 +26,7 @@ const start = () => {
       appendPosition: "",
 
     });
+    // Build the table specification using the table renderer.
 
     render({
       type: "dataList", columns, data,
