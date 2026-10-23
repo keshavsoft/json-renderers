@@ -1,4 +1,4 @@
-import render from "../../../docs/dist/v19/min.js";
+import render from "../../../docs/dist/v21/min.js";
 import "https://keshavsoft.github.io/json-to-tag/dist/v9/min.js";
 import data from "./data.json" with {type: "json"};
 import columns from "./columns.json" with {type: "json"};
