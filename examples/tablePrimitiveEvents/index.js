@@ -1,4 +1,4 @@
-import render from "../../src/index.js";
+import "../../../docs/dist/v21/min.js";
 import { readRow, readFooter } from "./methods/tableEvents.js";
 
 const container = document.getElementById("table-container");
@@ -15,9 +15,11 @@ const data = [
   { itemName: "Water Proof Tape", baseUnit: "rolls" }
 ];
 
-render({
+window.ks.jsonRenderers.render({
   targetHtmlId: "table-container",
-  type: "table",
+  appendPosition: "append",
+  classToApply: "",
+  type: "table.withFooter",
   columns,
   data,
   options: {
@@ -40,7 +42,7 @@ container.addEventListener("click", event => {
       return;
     }
 
-    if (label === "options") {
+    if (label === "show") {
       const result = readRow(button, columns.map(column => column.columnName));
       output.textContent = JSON.stringify({ action: "row-options", data: result }, null, 2);
     }

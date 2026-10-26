@@ -1,4 +1,4 @@
-import { runInstructions } from "dom-primitive-engine";
+import "https://keshavsoft.github.io/dom-primitive-engine/dist/v13/min.js";
 
 const rowInstructions = columns => [
   {
@@ -38,10 +38,10 @@ const footerInstructions = [
 
 export const readRow = (button, columns) => {
   if (!button) throw new TypeError("A row button is required.");
-  return runInstructions(button, rowInstructions(columns));
+  return window.ks.domPrimitiveEngine.runInstructions(button, rowInstructions(columns));
 };
 
 export const readFooter = button => {
   if (!button) throw new TypeError("The footer Save button is required.");
-  return runInstructions(button, footerInstructions);
+  return window.ks.domPrimitiveEngine.runInstructions(button, footerInstructions);
 };
