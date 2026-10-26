@@ -1,13 +1,13 @@
-const Z = {
+const tt = {
   version: "v21.0.0",
   description: "build table from store data and render to DOM uses json-to-spec, json-to-dom under the hood"
-}, tt = (t) => {
+}, et = (t) => {
   const e = t;
   typeof globalThis > "u" || !e || (globalThis.ks ?? (globalThis.ks = {}), globalThis.ks.jsonRenderers = {
-    meta: Z,
+    meta: tt,
     render: e
   });
-}, et = (t) => {
+}, at = (t) => {
   const e = (t == null ? void 0 : t.inConfig) ?? t;
   if (!e || typeof e != "object")
     throw new TypeError("Config must be an object");
@@ -17,7 +17,7 @@ const Z = {
   if (typeof a != "string")
     throw new TypeError("type must be a string");
   return !0;
-}, at = (t) => {
+}, ot = (t) => {
   const e = (t == null ? void 0 : t.inConfig) ?? t;
   if (!e || typeof e != "object")
     throw new TypeError("Config must be an object");
@@ -27,7 +27,7 @@ const Z = {
   if (!Array.isArray(a))
     throw new TypeError("data must be an Array");
   return !0;
-}, ot = (t) => {
+}, nt = (t) => {
   const e = (t == null ? void 0 : t.inConfig) ?? t;
   if (!e || typeof e != "object")
     throw new TypeError("Config must be an object");
@@ -37,7 +37,7 @@ const Z = {
   if (!Array.isArray(a))
     throw new TypeError("columns must be an Array");
   return !0;
-}, nt = (t) => {
+}, st = (t) => {
   const e = (t == null ? void 0 : t.inConfig) ?? t;
   if (!e || typeof e != "object")
     throw new TypeError("Config must be an object");
@@ -49,8 +49,8 @@ const Z = {
   const e = (t == null ? void 0 : t.inConfig) ?? t;
   if (!e || typeof e != "object" || Array.isArray(e))
     throw new TypeError("Config must be an object");
-  return et(e), at(e), ot(e), nt(e), !0;
-}, st = (t) => {
+  return at(e), ot(e), nt(e), st(e), !0;
+}, rt = (t) => {
   const e = (t == null ? void 0 : t.inConfig) ?? t;
   if (!e || typeof e != "object")
     throw new TypeError("Config must be an object");
@@ -62,7 +62,7 @@ const Z = {
   if (a.trim().length === 0)
     throw new Error("targetHtmlId must be a non-empty string");
   return !0;
-}, rt = (t) => {
+}, lt = (t) => {
   const e = (t == null ? void 0 : t.inConfig) ?? t;
   if (!e || typeof e != "object")
     throw new TypeError("Config must be an object");
@@ -72,7 +72,7 @@ const Z = {
   if (typeof a != "string")
     throw new TypeError("appendPosition must be a string");
   return !0;
-}, lt = (t) => {
+}, it = (t) => {
   const e = (t == null ? void 0 : t.inConfig) ?? t;
   if (!e || typeof e != "object")
     throw new TypeError("Config must be an object");
@@ -86,15 +86,15 @@ const Z = {
   const e = (t == null ? void 0 : t.inConfig) ?? t;
   if (!e || typeof e != "object" || Array.isArray(e))
     throw new TypeError("Config must be an object");
-  return st(e), rt(e), lt(e), !0;
-}, it = "table", ct = "", ut = [], dt = [], bt = "", pt = "replace", mt = !1, y = {
-  type: it,
-  targetHtmlId: ct,
-  data: ut,
-  columns: dt,
-  classToApply: bt,
-  appendPosition: pt,
-  showLog: mt
+  return rt(e), lt(e), it(e), !0;
+}, ct = "table", ut = "", dt = [], bt = [], pt = "", mt = "replace", ht = !1, y = {
+  type: ct,
+  targetHtmlId: ut,
+  data: dt,
+  columns: bt,
+  classToApply: pt,
+  appendPosition: mt,
+  showLog: ht
 }, R = (t) => {
   const e = typeof t == "object" && t !== null ? t.inKey ?? t.key : t;
   return e && e in y ? y[e] : { ...y };
@@ -110,26 +110,26 @@ C.getSpec = R;
 C.configSpec = y;
 C.guardSpec = N;
 C.guardMount = v;
-const ht = {
+const ft = {
   version: "1.41.0",
   name: "json-to-dom"
-}, ft = (t) => {
+}, yt = (t) => {
   t && (globalThis.ks ?? (globalThis.ks = {}), globalThis.ks.jsonToDom = {
-    meta: ht,
+    meta: ft,
     appendToDom: t
   });
-}, yt = {
+}, Ct = {
   version: "v10",
   description: "JSON-to-DOM engine with SVG namespace support, mixed text content, and centralized traversal"
-}, Ct = (t) => {
+}, $t = (t) => {
   if (typeof globalThis > "u" || !t) return;
   globalThis.ks ?? (globalThis.ks = {});
   const e = {
-    meta: yt,
+    meta: Ct,
     buildSpecElement: t
   };
   globalThis.ks["json-to-tag"] = e, globalThis.ks.jsonToTag = e;
-}, $t = (t) => t == null ? null : typeof Node < "u" && t instanceof Node ? t : typeof t == "string" || typeof t == "number" ? document.createTextNode(String(t)) : typeof t == "object" && (t.nodeType === 3 || t.tagName === "#text" || !t.tagName && (t.textContent !== void 0 || t.text !== void 0)) ? document.createTextNode(t.textContent ?? t.text ?? "") : E(t), L = (t) => Array.isArray(t) ? t.map($t).flat(1 / 0).filter(Boolean) : [], gt = (t) => (t == null, t), wt = "http://www.w3.org/2000/svg", Nt = /* @__PURE__ */ new Set([
+}, gt = (t) => t == null ? null : typeof Node < "u" && t instanceof Node ? t : typeof t == "string" || typeof t == "number" ? document.createTextNode(String(t)) : typeof t == "object" && (t.nodeType === 3 || t.tagName === "#text" || !t.tagName && (t.textContent !== void 0 || t.text !== void 0)) ? document.createTextNode(t.textContent ?? t.text ?? "") : E(t), L = (t) => Array.isArray(t) ? t.map(gt).flat(1 / 0).filter(Boolean) : [], wt = (t) => (t == null, t), Nt = "http://www.w3.org/2000/svg", xt = /* @__PURE__ */ new Set([
   "svg",
   "path",
   "symbol",
@@ -156,15 +156,15 @@ const ht = {
   "fegaussianblur",
   "femerge",
   "femergenode"
-]), xt = ({ inTagName: t }) => {
+]), Tt = ({ inTagName: t }) => {
   const e = t == null ? void 0 : t.toLowerCase();
   if (!e) return null;
   if (e === "checkbox") {
     const a = document.createElement("input");
     return a.type = "checkbox", a;
   }
-  return Nt.has(e) ? document.createElementNS(wt, e) : document.createElement(e);
-}, Tt = ({ inElement: t, inTextContent: e }) => (!t || e === void 0 || e === null || (t.textContent = e), t), At = ({ inElement: t, inProperties: e }) => (t && e && typeof e == "object" && Object.assign(t, e), t), Ft = "http://www.w3.org/1999/xlink", kt = ({ inElement: t, inAttributes: e }) => {
+  return xt.has(e) ? document.createElementNS(Nt, e) : document.createElement(e);
+}, At = ({ inElement: t, inTextContent: e }) => (!t || e === void 0 || e === null || (t.textContent = e), t), Ft = ({ inElement: t, inProperties: e }) => (t && e && typeof e == "object" && Object.assign(t, e), t), kt = "http://www.w3.org/1999/xlink", Bt = ({ inElement: t, inAttributes: e }) => {
   const a = t, o = e;
   if (!a || !o || typeof o != "object")
     return a;
@@ -179,7 +179,7 @@ const ht = {
         const i = String(r);
         if (n)
           try {
-            a.setAttributeNS(Ft, "href", i);
+            a.setAttributeNS(kt, "href", i);
           } catch {
           }
         a.setAttribute("href", i), a.setAttribute("xlink:href", i);
@@ -192,25 +192,25 @@ const ht = {
     }
     r != null && a.setAttribute(s, String(r));
   }), a;
-}, Bt = ({ inElement: t, inClassList: e }) => {
+}, St = ({ inElement: t, inClassList: e }) => {
   if (!t || !e) return t;
   const a = typeof e == "string" ? e.split(/\s+/).filter(Boolean) : Array.isArray(e) ? e.filter((o) => typeof o == "string" && o.trim()) : [];
   return a.length && t.classList.add(...a), t;
-}, St = (t) => {
+}, It = (t) => {
   if (!t || typeof t != "object" || Array.isArray(t) || !t.tagName) return null;
-  const e = xt({ inTagName: t.tagName });
+  const e = Tt({ inTagName: t.tagName });
   if (!e) return null;
-  if (Tt({
+  if (At({
     inElement: e,
-    inTextContent: gt(t.textContent),
+    inTextContent: wt(t.textContent),
     inTagName: t.tagName
-  }), At({
+  }), Ft({
     inElement: e,
     inProperties: t.properties
-  }), kt({
+  }), Bt({
     inElement: e,
     inAttributes: t.attributes
-  }), Bt({
+  }), St({
     inElement: e,
     inClassList: t.classList
   }), Array.isArray(t.children)) {
@@ -218,17 +218,17 @@ const ht = {
     a.length && e.append(...a);
   }
   return e;
-}, E = (t) => t == null ? null : typeof Node < "u" && t instanceof Node ? t : Array.isArray(t) ? L(t) : typeof t == "object" ? St(t) : typeof t == "string" || typeof t == "number" ? document.createTextNode(String(t)) : null, O = (t = {}) => {
+}, E = (t) => t == null ? null : typeof Node < "u" && t instanceof Node ? t : Array.isArray(t) ? L(t) : typeof t == "object" ? It(t) : typeof t == "string" || typeof t == "number" ? document.createTextNode(String(t)) : null, O = (t = {}) => {
   const e = (t == null ? void 0 : t.spec) ?? (t == null ? void 0 : t.inSpec) ?? t;
   return E(e);
 };
-Ct(O);
-const It = {
+$t(O);
+const jt = {
   version: "2.1.1",
   name: "spec-to-dom"
-}, jt = (t) => {
+}, Pt = (t) => {
   t && (globalThis.ks ?? (globalThis.ks = {}), globalThis.ks.specToDom = {
-    meta: It,
+    meta: jt,
     appendToDom: t
   });
 }, D = ({ buildSpec: t, targetHtmlId: e, appendPosition: a, showLog: o }) => {
@@ -237,27 +237,27 @@ const It = {
   const l = document.getElementById(s);
   return l ? (Array.isArray(n) || n instanceof NodeList || n instanceof HTMLCollection ? r === "prepend" ? l.prepend(...n) : l.append(...n) : r === "prepend" ? l.prepend(n) : (l.innerHTML = "", l.append(n)), i && console.log("renderToDom 2 (mounted):", l), l) : null;
 };
-jt(D);
+Pt(D);
 const V = ({ jsonSpec: t, targetHtmlId: e, appendPosition: a, showLog: o }) => {
   const n = O(t);
   return D({ buildSpec: n, targetHtmlId: e, appendPosition: a, showLog: o });
 };
-ft(V);
-const Pt = {
+yt(V);
+const vt = {
   version: "1.22.0",
   name: "json-renderers-build"
-}, vt = (t) => {
+}, Rt = (t) => {
   t && (globalThis.ks ?? (globalThis.ks = {}), globalThis.ks.jsonRenderersBuild = {
-    meta: Pt,
+    meta: vt,
     render: t
   });
-}, Rt = (t) => typeof t == "object" && t !== null && !Array.isArray(t), Lt = (t, e) => {
-  if (!Rt(t)) return;
+}, Lt = (t) => typeof t == "object" && t !== null && !Array.isArray(t), Et = (t, e) => {
+  if (!Lt(t)) return;
   let a = {};
   for (const [o, n] of Object.entries(t))
     a[o] = b(e, n);
   return a;
-}, Et = (t, e) => {
+}, Ot = (t, e) => {
   const a = structuredClone(t);
   return Array.isArray(a) ? a.map((n) => b(e, n)) : void 0;
 }, G = (t, e, a) => {
@@ -266,7 +266,7 @@ const Pt = {
       return e == null ? void 0 : e.rowData.length;
   } else
     return t === "${rowValue}" && "rowData" in e ? e == null ? void 0 : e.rowData : t.replace(/\$\{(\w+)\}/g, (o, n) => e[n] !== void 0 ? e[n] : o);
-}, Ot = (t, e) => G(t, e), Dt = (t, e, a) => {
+}, Dt = (t, e) => G(t, e), Vt = (t, e, a) => {
   if (a && console.log("inElement : ", t), a && console.log("inTemplate : ", e), e == null)
     throw new TypeError("inTemplate is required");
   if (typeof e != "object" && typeof e != "string")
@@ -274,23 +274,23 @@ const Pt = {
   if (!t || typeof t != "object" || Array.isArray(t))
     throw new TypeError("inElement must be an object");
   return !0;
-}, Vt = {
+}, Gt = {
   name: "json-transformer-funcs-primitive",
   version: "1.9.0"
-}, Gt = (t) => {
+}, Wt = (t) => {
   var e, a;
   typeof globalThis > "u" || !t || (globalThis.ks ?? (globalThis.ks = {}), (e = globalThis.ks).applyTemplate ?? (e.applyTemplate = t), (a = globalThis.ks).transformerFuncs ?? (a.transformerFuncs = {}), globalThis.ks.transformerFuncs.primitive = {
-    meta: Vt,
+    meta: Gt,
     applyTemplate: t
   });
 }, b = (t, e, a) => {
   const o = t, n = e;
-  Dt(o, n, a);
+  Vt(o, n, a);
   const s = structuredClone(n);
-  return typeof s == "string" ? G(s, o) : (s === null || typeof s != "object" || ("textContent" in s && (s.textContent = Ot(s == null ? void 0 : s.textContent, o)), "attributes" in s && (s.attributes = Lt(s == null ? void 0 : s.attributes, o)), "children" in s && (s.children = Et(s == null ? void 0 : s.children, o))), s);
+  return typeof s == "string" ? G(s, o) : (s === null || typeof s != "object" || ("textContent" in s && (s.textContent = Dt(s == null ? void 0 : s.textContent, o)), "attributes" in s && (s.attributes = Et(s == null ? void 0 : s.attributes, o)), "children" in s && (s.children = Ot(s == null ? void 0 : s.children, o))), s);
 };
-Gt(b);
-const Wt = (t, e) => {
+Wt(b);
+const Ht = (t, e) => {
   if (!Array.isArray(t))
     throw new TypeError("inSource must be an Array");
   if (t.length === 0)
@@ -303,11 +303,11 @@ const Wt = (t, e) => {
   return !0;
 }, h = (t, e) => {
   const a = t, o = e;
-  return Wt(a, o), a.map((n) => b(n, o));
-}, Ht = (t, e) => t.map((o) => ({
+  return Ht(a, o), a.map((n) => b(n, o));
+}, Kt = (t, e) => t.map((o) => ({
   ...o,
   rowData: e[o.columnName]
-})), Kt = (t, e, a) => {
+})), qt = (t, e, a) => {
   var n, s, r, i, l, d;
   if (!Array.isArray(t))
     throw new TypeError("inColumns must be an Array");
@@ -338,44 +338,44 @@ const Wt = (t, e) => {
       throw new Error(`Cell template "${p}" for column "${u.columnName}" not found in inSpec`);
   }
   return !0;
-}, qt = (t, e) => t.map((o) => {
+}, Mt = (t, e) => t.map((o) => {
   var i, l, d;
   const n = ((l = (i = o.template) == null ? void 0 : i.body) == null ? void 0 : l.cell) || ((d = o.template) == null ? void 0 : d.bodyCell) || "buildBodyCell", s = e[n];
   return b(o, s);
 }), W = (t, e, a) => {
   var d, c, u;
-  Kt(t, e, a);
+  qt(t, e, a);
   const o = t, n = e, s = a, r = ((u = (c = (d = o[0]) == null ? void 0 : d.template) == null ? void 0 : c.body) == null ? void 0 : u.tr) || "buildBodyTr", i = s[r];
   return n.map((p) => {
-    const f = b(p, i), Q = Ht(o, p), Y = qt(Q, s);
-    return f.children = Y, f;
+    const f = b(p, i), Y = Kt(o, p), Z = Mt(Y, s);
+    return f.children = Z, f;
   });
 }, x = (t) => Array.isArray(t) ? t : [t], H = (t, e, a) => {
   t[e] = a;
-}, Mt = (t, e, a) => {
-  t[e].push(...x(a));
 }, zt = (t, e, a) => {
-  t[e].unshift(...x(a));
+  t[e].push(...x(a));
 }, Ut = (t, e, a) => {
+  t[e].unshift(...x(a));
+}, Jt = (t, e, a) => {
   t[e].forEach((o) => {
     o.children.push(...structuredClone(x(a)));
   });
-}, Jt = (t, e, a) => {
+}, _t = (t, e, a) => {
   t[e].forEach((o) => {
     o.children.unshift(...structuredClone(x(a)));
   });
-}, _t = (t, e, a) => {
+}, Xt = (t, e, a) => {
   t[e].forEach((o, n) => {
     const s = structuredClone(a);
     s.textContent = n + 1, o.children.unshift(s);
   });
-}, Xt = {
+}, Qt = {
   set: H,
-  push: Mt,
-  unshift: zt,
-  pushToRows: Ut,
-  unshiftToRows: Jt,
-  unshiftSerialToRows: _t
+  push: zt,
+  unshift: Ut,
+  pushToRows: Jt,
+  unshiftToRows: _t,
+  unshiftSerialToRows: Xt
 }, $ = (t, e) => {
   var a;
   if (((a = t == null ? void 0 : t.attributes) == null ? void 0 : a["data-role"]) === e) return t;
@@ -384,12 +384,12 @@ const Wt = (t, e) => {
     if (n) return n;
   }
   return null;
-}, Qt = (t, e) => {
+}, Yt = (t, e) => {
   const a = e.dataRole ? $(t[e.fileName], e.dataRole) : t[e.fileName], o = [...e.filePath ?? []], n = o.pop();
   return { parent: o.reduce((r, i) => r[i], a), key: n };
 }, K = (t, e, a) => {
-  const { parent: o, key: n } = Qt(t, e), s = e.action;
-  (Xt[s] || H)(o, n, a);
+  const { parent: o, key: n } = Yt(t, e), s = e.action;
+  (Qt[s] || H)(o, n, a);
 }, q = (t, e) => {
   var a;
   if (((a = t == null ? void 0 : t.attributes) == null ? void 0 : a["data-role"]) === e) return t;
@@ -398,27 +398,27 @@ const Wt = (t, e) => {
     if (n) return n;
   }
   return null;
-}, Yt = (t, e) => {
+}, Zt = (t, e) => {
   const a = t[e.fileName], o = e.dataRole ? q(a, e.dataRole) : a;
   return (e.filePath ?? []).reduce((n, s) => n[s], o);
-}, Zt = {
+}, te = {
   tagName: "tr",
   attributes: {
     class: "align-middle"
   },
   children: []
-}, te = {
+}, ee = {
   tagName: "col",
   attributes: {
     width: "${width}"
   }
-}, ee = {
+}, ae = {
   tagName: "th",
   textContent: "${columnName}",
   attributes: {
     class: "py-3 px-3 fw-semibold text-uppercase small"
   }
-}, ae = {
+}, oe = {
   tagName: "td",
   children: [
     {
@@ -433,32 +433,18 @@ const Wt = (t, e) => {
       }
     }
   ]
-}, oe = {
+}, ne = {
   tagName: "td",
   textContent: "${rowValue}",
   attributes: {
     class: "py-3 px-3 text-secondary"
   }
-}, ne = {
+}, se = {
   tagName: "button",
   textContent: "${columnName}",
   attributes: {
     class: "btn btn-primary btn-sm"
   }
-}, se = {
-  tagName: "td",
-  attributes: {
-    class: "py-2 px-3 text-center"
-  },
-  children: [
-    {
-      tagName: "button",
-      textContent: "${agg:count}",
-      attributes: {
-        class: "btn btn-primary btn-sm"
-      }
-    }
-  ]
 }, re = {
   tagName: "td",
   attributes: {
@@ -467,56 +453,70 @@ const Wt = (t, e) => {
   children: [
     {
       tagName: "button",
+      textContent: "${agg:count}",
+      attributes: {
+        class: "btn btn-primary btn-sm"
+      }
+    }
+  ]
+}, le = {
+  tagName: "td",
+  attributes: {
+    class: "py-2 px-3 text-center"
+  },
+  children: [
+    {
+      tagName: "button",
       textContent: "show",
       attributes: {
         class: "btn btn-primary btn-sm ks-btn-show"
       }
     }
   ]
-}, le = {
+}, ie = {
   tagName: "option",
   textContent: "${rowValue}",
   attributes: {
     value: "${rowValue}"
   }
-}, ie = {
+}, ce = {
   tagName: "select",
   attributes: {
     id: "LedgerName"
   },
   children: []
-}, ce = {
+}, ue = {
   tagName: "datalist",
   attributes: {
     "data-name": "${columnName}"
   },
   children: []
-}, ue = {
+}, de = {
   tagName: "td",
   children: []
-}, de = {
+}, be = {
   tagName: "th",
   textContent: "#",
   attributes: {
     class: "py-3 px-3 fw-semibold text-uppercase small"
   }
-}, be = {
+}, pe = {
   tagName: "col",
   attributes: {
     width: "50px"
   }
-}, pe = {
+}, me = {
   tagName: "col",
   attributes: {
     width: "100px"
   }
-}, me = {
+}, he = {
   tagName: "th",
   textContent: "options",
   attributes: {
     class: "py-3 px-3 fw-semibold text-uppercase small"
   }
-}, he = {
+}, fe = {
   tagName: "td",
   attributes: {
     class: "py-2 px-3 text-center"
@@ -530,51 +530,51 @@ const Wt = (t, e) => {
       }
     }
   ]
-}, fe = {
-  buildBodyTr: Zt,
-  buildColGroup: te,
-  buildHeader: ee,
-  buildFooter: ae,
-  buildBodyCell: oe,
-  button: ne,
-  buttonCell: se,
-  optionsButtonCell: re,
-  buildOption: le,
-  buildSelect: ie,
-  buildDataList: ce,
-  emptyCell: ue,
-  headerSerialCell: de,
-  colGroupForSerial: be,
-  colGroupForOption: pe,
-  headerForOption: me,
-  tdWithButtonSaveWarning: he
-}, ye = { applyTemplate: b, fromCollection: h }, Ce = (t, e) => (t == null ? void 0 : t.sourcePath) === null ? null : Yt(e, t.sourcePath), $e = (t, e, a, o) => {
-  const n = fe, s = t.templateKey;
+}, ye = {
+  buildBodyTr: te,
+  buildColGroup: ee,
+  buildHeader: ae,
+  buildFooter: oe,
+  buildBodyCell: ne,
+  button: se,
+  buttonCell: re,
+  optionsButtonCell: le,
+  buildOption: ie,
+  buildSelect: ce,
+  buildDataList: ue,
+  emptyCell: de,
+  headerSerialCell: be,
+  colGroupForSerial: pe,
+  colGroupForOption: me,
+  headerForOption: he,
+  tdWithButtonSaveWarning: fe
+}, Ce = { applyTemplate: b, fromCollection: h }, $e = (t, e) => (t == null ? void 0 : t.sourcePath) === null ? null : Zt(e, t.sourcePath), ge = (t, e, a, o) => {
+  const n = ye, s = t.templateKey;
   let r = n[s], i;
-  const l = Ce(t, e);
-  l === null ? i = r : i = ye[t.func](l, r), K(e, t.destinationPath, i);
+  const l = $e(t, e);
+  l === null ? i = r : i = Ce[t.func](l, r), K(e, t.destinationPath, i);
 }, g = (t, e, a, o) => {
   t.forEach((n) => {
-    $e(n, e);
+    ge(n, e);
   });
-}, ge = {
+}, we = {
   tagName: "tr",
   attributes: {
     class: "align-middle"
   },
   children: []
-}, we = {
+}, Ne = {
   tagName: "col",
   attributes: {
     width: "${width}"
   }
-}, Ne = {
+}, xe = {
   tagName: "th",
   textContent: "${columnName}",
   attributes: {
     class: "py-3 px-3 fw-semibold text-uppercase small"
   }
-}, xe = {
+}, Te = {
   tagName: "td",
   children: [
     {
@@ -589,32 +589,18 @@ const Wt = (t, e) => {
       }
     }
   ]
-}, Te = {
+}, Ae = {
   tagName: "td",
   textContent: "${rowValue}",
   attributes: {
     class: "py-3 px-3 text-secondary"
   }
-}, Ae = {
+}, Fe = {
   tagName: "button",
   textContent: "${columnName}",
   attributes: {
     class: "btn btn-primary btn-sm"
   }
-}, Fe = {
-  tagName: "td",
-  attributes: {
-    class: "py-2 px-3 text-center"
-  },
-  children: [
-    {
-      tagName: "button",
-      textContent: "${agg:count}",
-      attributes: {
-        class: "btn btn-primary btn-sm"
-      }
-    }
-  ]
 }, ke = {
   tagName: "td",
   attributes: {
@@ -623,56 +609,70 @@ const Wt = (t, e) => {
   children: [
     {
       tagName: "button",
+      textContent: "${agg:count}",
+      attributes: {
+        class: "btn btn-primary btn-sm"
+      }
+    }
+  ]
+}, Be = {
+  tagName: "td",
+  attributes: {
+    class: "py-2 px-3 text-center"
+  },
+  children: [
+    {
+      tagName: "button",
       textContent: "show",
       attributes: {
         class: "btn btn-primary btn-sm ks-btn-show"
       }
     }
   ]
-}, Be = {
+}, Se = {
   tagName: "option",
   textContent: "${rowValue}",
   attributes: {
     value: "${rowValue}"
   }
-}, Se = {
+}, Ie = {
   tagName: "select",
   attributes: {
     id: "LedgerName"
   },
   children: []
-}, Ie = {
+}, je = {
   tagName: "datalist",
   attributes: {
     "data-name": "${columnName}"
   },
   children: []
-}, je = {
+}, Pe = {
   tagName: "td",
   children: []
-}, Pe = {
+}, ve = {
   tagName: "th",
   textContent: "#",
   attributes: {
     class: "py-3 px-3 fw-semibold text-uppercase small"
   }
-}, ve = {
+}, Re = {
   tagName: "col",
   attributes: {
     width: "50px"
   }
-}, Re = {
+}, Le = {
   tagName: "col",
   attributes: {
     width: "100px"
   }
-}, Le = {
+}, Ee = {
   tagName: "th",
   textContent: "options",
   attributes: {
     class: "py-3 px-3 fw-semibold text-uppercase small"
   }
-}, Ee = {
+}, Oe = {
   tagName: "td",
   attributes: {
     class: "py-2 px-3 text-center"
@@ -686,274 +686,53 @@ const Wt = (t, e) => {
       }
     }
   ]
-}, Oe = {
-  buildBodyTr: ge,
-  buildColGroup: we,
-  buildHeader: Ne,
-  buildFooter: xe,
-  buildBodyCell: Te,
-  button: Ae,
-  buttonCell: Fe,
-  optionsButtonCell: ke,
-  buildOption: Be,
-  buildSelect: Se,
-  buildDataList: Ie,
-  emptyCell: je,
-  headerSerialCell: Pe,
-  colGroupForSerial: ve,
-  colGroupForOption: Re,
-  headerForOption: Le,
-  tdWithButtonSaveWarning: Ee
-}, De = { applyTemplate: b, fromCollection: h, twoDimensional: W }, Ve = (t, e, a, o) => {
-  const n = De[t.func](
+}, De = {
+  buildBodyTr: we,
+  buildColGroup: Ne,
+  buildHeader: xe,
+  buildFooter: Te,
+  buildBodyCell: Ae,
+  button: Fe,
+  buttonCell: ke,
+  optionsButtonCell: Be,
+  buildOption: Se,
+  buildSelect: Ie,
+  buildDataList: je,
+  emptyCell: Pe,
+  headerSerialCell: ve,
+  colGroupForSerial: Re,
+  colGroupForOption: Le,
+  headerForOption: Ee,
+  tdWithButtonSaveWarning: Oe
+}, Ve = { applyTemplate: b, fromCollection: h, twoDimensional: W }, Ge = (t, e, a, o) => {
+  const n = Ve[t.func](
     e.data.columns,
     e.data.data,
-    Oe
+    De
   );
   K(e, t.destinationPath, n);
 }, M = (t, e, a, o) => {
   t.forEach((n) => {
-    Ve(n, e);
+    Ge(n, e);
   });
-}, Ge = {
-  tagName: "tr",
-  attributes: {
-    class: "align-middle"
-  },
-  children: []
-}, We = {
-  tagName: "col",
-  attributes: {
-    width: "${width}"
-  }
-}, He = {
-  tagName: "th",
-  textContent: "${columnName}",
-  attributes: {
-    class: "py-3 px-3 fw-semibold text-uppercase small"
-  }
-}, Ke = {
-  tagName: "td",
-  children: [
-    {
-      tagName: "input",
-      attributes: {
-        type: "text",
-        placeholder: "enter ${columnName}",
-        name: "${columnName}",
-        id: "${columnName}",
-        list: "${columnName}",
-        class: "form-control"
-      }
-    }
-  ]
-}, qe = {
-  tagName: "td",
-  textContent: "${rowValue}",
-  attributes: {
-    class: "py-3 px-3 text-secondary"
-  }
-}, Me = {
-  tagName: "button",
-  textContent: "${columnName}",
-  attributes: {
-    class: "btn btn-primary btn-sm"
-  }
-}, ze = {
-  tagName: "td",
-  attributes: {
-    class: "py-2 px-3 text-center"
-  },
-  children: [
-    {
-      tagName: "button",
-      textContent: "${agg:count}",
-      attributes: {
-        class: "btn btn-primary btn-sm"
-      }
-    }
-  ]
-}, Ue = {
-  tagName: "td",
-  attributes: {
-    class: "py-2 px-3 text-center"
-  },
-  children: [
-    {
-      tagName: "button",
-      textContent: "${columnName}",
-      attributes: {
-        class: "btn btn-primary btn-sm"
-      }
-    }
-  ]
-}, Je = {
-  tagName: "option",
-  textContent: "${rowValue}",
-  attributes: {
-    value: "${rowValue}"
-  }
-}, _e = {
-  tagName: "select",
-  attributes: {
-    id: "LedgerName"
-  },
-  children: []
-}, Xe = {
-  tagName: "datalist",
-  attributes: {
-    "data-name": "${columnName}"
-  },
-  children: []
-}, Qe = {
-  tagName: "td",
-  children: []
-}, z = {
-  buildBodyTr: Ge,
-  buildColGroup: We,
-  buildHeader: He,
-  buildFooter: Ke,
-  buildBodyCell: qe,
-  button: Me,
-  buttonCell: ze,
-  optionsButtonCell: Ue,
-  buildOption: Je,
-  buildSelect: _e,
-  buildDataList: Xe,
-  emptyCell: Qe
-}, Ye = "table", Ze = {
-  class: "table table-hover table-striped align-middle border mb-0"
-}, ta = [
-  {
-    tagName: "colgroup",
-    attributes: {
-      "data-role": "table-colgroup"
-    },
-    children: []
-  },
-  {
-    tagName: "thead",
-    attributes: {
-      class: "table-dark",
-      "data-role": "table-header"
-    },
-    children: [
-      {
-        tagName: "tr",
-        attributes: {
-          "data-role": "table-header-row"
-        },
-        children: []
-      }
-    ]
-  },
-  {
-    tagName: "tbody",
-    attributes: {
-      "data-role": "table-body"
-    },
-    children: []
-  },
-  {
-    tagName: "tfoot",
-    attributes: {
-      "data-role": "table-footer"
-    },
-    children: [
-      {
-        tagName: "tr",
-        attributes: {
-          "data-role": "table-footer-row"
-        },
-        children: []
-      }
-    ]
-  }
-], ea = {
-  tagName: Ye,
-  attributes: Ze,
-  children: ta
-}, aa = [
-  {
-    narration: "Build column widths",
-    destinationPath: {
-      fileName: "base",
-      dataRole: "table-colgroup",
-      filePath: [
-        "children"
-      ]
-    },
-    sourcePath: {
-      fileName: "data",
-      filePath: [
-        "columns"
-      ]
-    },
-    templateKey: "buildColGroup",
-    func: "fromCollection"
-  },
-  {
-    narration: "Build table header",
-    destinationPath: {
-      fileName: "base",
-      dataRole: "table-header-row",
-      filePath: [
-        "children"
-      ]
-    },
-    sourcePath: {
-      fileName: "data",
-      filePath: [
-        "columns"
-      ]
-    },
-    templateKey: "buildHeader",
-    func: "fromCollection"
-  }
-], oa = [
-  {
-    narration: "Build table body",
-    destinationPath: {
-      fileName: "base",
-      dataRole: "table-body",
-      filePath: [
-        "children"
-      ]
-    },
-    sourcePath: {
-      fileName: "data",
-      filePath: [
-        "columns"
-      ]
-    },
-    func: "twoDimensional"
-  }
-], na = ({ data: t, columns: e, options: a }) => {
-  const o = structuredClone(ea), n = {
-    data: { columns: e, data: t },
-    base: o,
-    spec: z,
-    ...a
-  };
-  return g(aa, n), M(oa, n), o;
-}, sa = (t, e, a) => {
+}, We = (t, e, a) => {
   const o = !!(t && typeof t == "object" && !Array.isArray(t)), n = `guards/base: ${o ? "passed" : "failed"}`;
   return Array.isArray(a) && a.push(n), e && console.log(n), o;
-}, ra = (t, e, a) => {
+}, He = (t, e, a) => {
   const o = !!(t && typeof t == "object" && !Array.isArray(t)), n = `guards/options: ${o ? "passed" : "failed"}`;
   return Array.isArray(a) && a.push(n), e && console.log(n), o;
-}, la = (t, e, a) => {
+}, Ke = (t, e, a) => {
   const o = typeof t == "boolean", n = `guards/showLog: ${o ? "passed" : "failed"}`;
   return Array.isArray(a) && a.push(n), e && console.log(n), o;
-}, ia = (t, e, a) => {
+}, qe = (t, e, a) => {
   const o = Array.isArray(t), n = `guards/returnLog: ${o ? "passed" : "failed"}`;
   return o ? t.push(n) : Array.isArray(a) && a.push(n), e && console.log(n), o;
-}, ca = ({ options: t, base: e, showLog: a, returnLog: o }) => ({
-  base: sa(e, a, o),
-  options: ra(t, a, o),
-  showLog: la(a, a, o),
-  returnLog: ia(o, a, o)
-}), ua = [
+}, Me = ({ options: t, base: e, showLog: a, returnLog: o }) => ({
+  base: We(e, a, o),
+  options: He(t, a, o),
+  showLog: Ke(a, a, o),
+  returnLog: qe(o, a, o)
+}), ze = [
   {
     narration: "Prepend the serial column width to the table colgroup.",
     destinationPath: {
@@ -1010,7 +789,7 @@ const Wt = (t, e) => {
     templateKey: "headerSerialCell",
     func: null
   }
-], da = [
+], Ue = [
   {
     narration: "Append the options column width to the table colgroup.",
     destinationPath: {
@@ -1067,12 +846,233 @@ const Wt = (t, e) => {
     templateKey: "tdWithButtonSaveWarning",
     func: null
   }
-], ba = ({ options: t = {}, base: e, showLog: a = !1, returnLog: o = [] } = {}) => {
-  const n = ca({ options: t, base: e, showLog: a, returnLog: o });
+], z = ({ options: t = {}, base: e, showLog: a = !1, returnLog: o = [] } = {}) => {
+  const n = Me({ options: t, base: e, showLog: a, returnLog: o });
   if (!Object.values(n).every(Boolean))
     return e;
   const s = t, r = e;
-  return (s.showSerial || s.serial) && g(ua, { base: r }), (s.showOptions || s.options) && g(da, { base: r }), s.showSearch, r;
+  return (s.showSerial || s.serial) && g(ze, { base: r }), (s.showOptions || s.options) && g(Ue, { base: r }), s.showSearch, r;
+}, Je = {
+  tagName: "tr",
+  attributes: {
+    class: "align-middle"
+  },
+  children: []
+}, _e = {
+  tagName: "col",
+  attributes: {
+    width: "${width}"
+  }
+}, Xe = {
+  tagName: "th",
+  textContent: "${columnName}",
+  attributes: {
+    class: "py-3 px-3 fw-semibold text-uppercase small"
+  }
+}, Qe = {
+  tagName: "td",
+  children: [
+    {
+      tagName: "input",
+      attributes: {
+        type: "text",
+        placeholder: "enter ${columnName}",
+        name: "${columnName}",
+        id: "${columnName}",
+        list: "${columnName}",
+        class: "form-control"
+      }
+    }
+  ]
+}, Ye = {
+  tagName: "td",
+  textContent: "${rowValue}",
+  attributes: {
+    class: "py-3 px-3 text-secondary"
+  }
+}, Ze = {
+  tagName: "button",
+  textContent: "${columnName}",
+  attributes: {
+    class: "btn btn-primary btn-sm"
+  }
+}, ta = {
+  tagName: "td",
+  attributes: {
+    class: "py-2 px-3 text-center"
+  },
+  children: [
+    {
+      tagName: "button",
+      textContent: "${agg:count}",
+      attributes: {
+        class: "btn btn-primary btn-sm"
+      }
+    }
+  ]
+}, ea = {
+  tagName: "td",
+  attributes: {
+    class: "py-2 px-3 text-center"
+  },
+  children: [
+    {
+      tagName: "button",
+      textContent: "${columnName}",
+      attributes: {
+        class: "btn btn-primary btn-sm"
+      }
+    }
+  ]
+}, aa = {
+  tagName: "option",
+  textContent: "${rowValue}",
+  attributes: {
+    value: "${rowValue}"
+  }
+}, oa = {
+  tagName: "select",
+  attributes: {
+    id: "LedgerName"
+  },
+  children: []
+}, na = {
+  tagName: "datalist",
+  attributes: {
+    "data-name": "${columnName}"
+  },
+  children: []
+}, sa = {
+  tagName: "td",
+  children: []
+}, U = {
+  buildBodyTr: Je,
+  buildColGroup: _e,
+  buildHeader: Xe,
+  buildFooter: Qe,
+  buildBodyCell: Ye,
+  button: Ze,
+  buttonCell: ta,
+  optionsButtonCell: ea,
+  buildOption: aa,
+  buildSelect: oa,
+  buildDataList: na,
+  emptyCell: sa
+}, ra = "table", la = {
+  class: "table table-hover table-striped align-middle border mb-0"
+}, ia = [
+  {
+    tagName: "colgroup",
+    attributes: {
+      "data-role": "table-colgroup"
+    },
+    children: []
+  },
+  {
+    tagName: "thead",
+    attributes: {
+      class: "table-dark",
+      "data-role": "table-header"
+    },
+    children: [
+      {
+        tagName: "tr",
+        attributes: {
+          "data-role": "table-header-row"
+        },
+        children: []
+      }
+    ]
+  },
+  {
+    tagName: "tbody",
+    attributes: {
+      "data-role": "table-body"
+    },
+    children: []
+  },
+  {
+    tagName: "tfoot",
+    attributes: {
+      "data-role": "table-footer"
+    },
+    children: [
+      {
+        tagName: "tr",
+        attributes: {
+          "data-role": "table-footer-row"
+        },
+        children: []
+      }
+    ]
+  }
+], ca = {
+  tagName: ra,
+  attributes: la,
+  children: ia
+}, ua = [
+  {
+    narration: "Build column widths",
+    destinationPath: {
+      fileName: "base",
+      dataRole: "table-colgroup",
+      filePath: [
+        "children"
+      ]
+    },
+    sourcePath: {
+      fileName: "data",
+      filePath: [
+        "columns"
+      ]
+    },
+    templateKey: "buildColGroup",
+    func: "fromCollection"
+  },
+  {
+    narration: "Build table header",
+    destinationPath: {
+      fileName: "base",
+      dataRole: "table-header-row",
+      filePath: [
+        "children"
+      ]
+    },
+    sourcePath: {
+      fileName: "data",
+      filePath: [
+        "columns"
+      ]
+    },
+    templateKey: "buildHeader",
+    func: "fromCollection"
+  }
+], da = [
+  {
+    narration: "Build table body",
+    destinationPath: {
+      fileName: "base",
+      dataRole: "table-body",
+      filePath: [
+        "children"
+      ]
+    },
+    sourcePath: {
+      fileName: "data",
+      filePath: [
+        "columns"
+      ]
+    },
+    func: "twoDimensional"
+  }
+], ba = ({ data: t, columns: e, options: a }) => {
+  const o = structuredClone(ca), n = {
+    data: { columns: e, data: t },
+    base: o,
+    spec: U,
+    ...a
+  };
+  return g(ua, n), M(da, n), z({ options: a, base: o }), o;
 }, pa = "table", ma = {
   class: "table table-hover table-striped align-middle border mb-0"
 }, ha = [
@@ -1202,11 +1202,11 @@ const Wt = (t, e) => {
   const o = structuredClone(fa), n = {
     data: { columns: e, data: t },
     base: o,
-    spec: z,
+    spec: U,
     ...a
   };
-  return g(ya, n), M(Ca, n), ba({ options: a, base: o, showLog: !1, returnLog: [] }), o;
-}, ga = { simple: na, withFooter: $a }, S = ({
+  return g(ya, n), M(Ca, n), z({ options: a, base: o, showLog: !1, returnLog: [] }), o;
+}, ga = { simple: ba, withFooter: $a }, S = ({
   inData: t,
   inColumns: e,
   inType: a,
@@ -1836,7 +1836,7 @@ const A = ({ inOptions: t = {}, options: e = {} } = {}) => {
 }, Po = (t, e) => {
   const a = structuredClone(t), o = h(e.footer.actions, jo[P.template]);
   return $(a, P.destinationRole).children.push(...o), a;
-}, U = ({ inColumns: t, inData: e, inOptions: a, columns: o, data: n, options: s } = {}) => ({
+}, J = ({ inColumns: t, inData: e, inOptions: a, columns: o, data: n, options: s } = {}) => ({
   columns: Array.isArray(t) && t.length > 0 ? t : Array.isArray(o) ? o : [],
   records: Array.isArray(e) && e.length > 0 ? e : Array.isArray(n) ? n : [],
   options: a && Object.keys(a).length > 0 ? a : s ?? {}
@@ -1919,7 +1919,7 @@ const A = ({ inOptions: t = {}, options: e = {} } = {}) => {
   const o = t[e];
   if (!o) throw new RangeError("Unknown bigButtons " + a + ": " + e);
   return o;
-}, J = (t) => {
+}, _ = (t) => {
   if (typeof t != "object" || t === null || Array.isArray(t))
     throw new TypeError("bigButtons options must be an object keyed by renderer type");
   const e = t["form.bigButtons"] ?? {};
@@ -1933,7 +1933,7 @@ const A = ({ inOptions: t = {}, options: e = {} } = {}) => {
     footer: F(Zo, a.footer, "footer")
   };
 }, tn = (t, e = {}) => {
-  const a = U(e), o = J(a.options), n = uo(t, o), s = ko(n, a, o);
+  const a = J(e), o = _(a.options), n = uo(t, o), s = ko(n, a, o);
   return Po(s, o);
 }, en = {
   none: {
@@ -2039,7 +2039,7 @@ const A = ({ inOptions: t = {}, options: e = {} } = {}) => {
   if (!o) throw new RangeError("Unknown bigButtons footer: " + t.footer);
   return { ...a.base, ...o };
 }, dn = (t, e = {}) => {
-  const a = J(U(e).options), { options: o } = a, n = o.framework ?? k.defaultFramework;
+  const a = _(J(e).options), { options: o } = a, n = o.framework ?? k.defaultFramework;
   if (!k.frameworks[n]) throw new RangeError("Unknown bigButtons framework: " + n);
   const r = Object.assign(
     {},
@@ -2052,16 +2052,16 @@ const A = ({ inOptions: t = {}, options: e = {} } = {}) => {
 }, bn = (t = {}) => {
   const e = so(), a = tn(e, t);
   return dn(a, t);
-}, _ = (t = {}) => {
+}, X = (t = {}) => {
   const e = { ...t, type: t.type ?? "form.bigButtons" };
   return N(e), bn(e);
 };
-to(_);
+to(X);
 const pn = ({
   inType: t = "stacked",
   inData: e,
   inColumns: a
-} = {}) => _({
+} = {}) => X({
   type: t,
   columns: a,
   data: e
@@ -2076,7 +2076,7 @@ const pn = ({
   search: A,
   inputRow: A,
   form: pn
-}, X = (t = {}) => {
+}, Q = (t = {}) => {
   N(t);
   const e = t == null ? void 0 : t.showLog;
   console.log("localShowLog : ", e);
@@ -2100,14 +2100,14 @@ const pn = ({
   });
   return e && console.log("json-renderers-build output:", i), i;
 };
-vt(X);
+Rt(Q);
 const hn = ({
   inColumns: t,
   inType: e = "table",
   inData: a,
   inShowLog: o = !1,
   inOptions: n
-} = {}) => X({
+} = {}) => Q({
   type: e,
   data: a ?? [],
   columns: t,
@@ -2133,7 +2133,7 @@ const hn = ({
   });
   return e && console.log("dom : ", n), n;
 };
-tt(fn);
+et(fn);
 export {
   fn as default,
   fn as render
