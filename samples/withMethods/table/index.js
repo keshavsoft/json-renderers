@@ -1,5 +1,5 @@
 import "../../../docs/dist/v18/min.js";
-import "https://keshavsoft.github.io/json-to-tag/dist/v9/min.js";
+// import "https://keshavsoft.github.io/json-to-tag/dist/v9/min.js";
 
 import data from "./data.json" with { type: "json" };
 import columns from "./columns.json" with { type: "json" };
@@ -16,60 +16,54 @@ import { cellButtonClick } from "./methods/cellButtonClick.js";
 
 const buildTable = async () => {
     try {
-        const spec = window.ks.jsonRenderersBuild.renderToDom({
-            type: "table",
+        const spec = window.ks.jsonRenderers.render({
+            targetHtmlId: "dom-render-container",
+            appendPosition: "append",
+            classToApply: "",
+            type: "table.withFooter",
             columns,
             data,
-            serial: {
-                col: { width: "50px" },
-                header: { columnName: "#" },
-                body: {},
-                footer: {}
-            },
             options: {
-                col: { width: "100px" },
-                header: { columnName: "options" },
-                body: { columnName: "show" },
-                footer: { columnName: "save" }
+                showSerial: true
             }
         });
 
-        console.log("spec : ", spec);
-        const control = window.ks.jsonToTag.buildSpecElement(spec);
-        container.appendChild(control);
+        // console.log("spec : ", spec);
+        // const control = window.ks.jsonToTag.buildSpecElement(spec);
+        // container.appendChild(control);
 
-        // Click Event: dynamically build batch table on demand using sectionRowIndex
-        container.addEventListener("click", (event) => {
-            const currentTarget = event.currentTarget;
+        // // Click Event: dynamically build batch table on demand using sectionRowIndex
+        // container.addEventListener("click", (event) => {
+        //     const currentTarget = event.currentTarget;
 
-            const button = event.target.closest("button");
-            console.log("button : ", button);
+        //     const button = event.target.closest("button");
+        //     console.log("button : ", button);
 
 
-            if (!button || !currentTarget.contains(button)) return;
-            const label = button.textContent.trim().toLowerCase();
-            const tr = button.closest("tr");
-            if (!tr) return;
+        //     if (!button || !currentTarget.contains(button)) return;
+        //     const label = button.textContent.trim().toLowerCase();
+        //     const tr = button.closest("tr");
+        //     if (!tr) return;
 
-            if (label === "save") {
-                saveClick({ ...event, currentTarget: button });
-            } else {
-                const tbody = button.closest("tbody");
-                console.log("hhhhhhh : ", tbody);
+        //     if (label === "save") {
+        //         saveClick({ ...event, currentTarget: button });
+        //     } else {
+        //         const tbody = button.closest("tbody");
+        //         console.log("hhhhhhh : ", tbody);
 
-                if (tbody) {
-                    cellButtonClick({ ...event, currentTarget: button }, { data, modalTitle, modalBody, batchModal });
-                } else {
-                    rowOptionsClick({ ...event, currentTarget: button });
-                };
+        //         if (tbody) {
+        //             cellButtonClick({ ...event, currentTarget: button }, { data, modalTitle, modalBody, batchModal });
+        //         } else {
+        //             rowOptionsClick({ ...event, currentTarget: button });
+        //         };
 
-                // if (label === "1") {
-                //     cellButtonClick({ ...event, currentTarget: button }, { data, modalTitle, modalBody, batchModal });
-                // } else if (label === "options") {
-                //     rowOptionsClick({ ...event, currentTarget: button });
-                // };
-            };
-        });
+        //         // if (label === "1") {
+        //         //     cellButtonClick({ ...event, currentTarget: button }, { data, modalTitle, modalBody, batchModal });
+        //         // } else if (label === "options") {
+        //         //     rowOptionsClick({ ...event, currentTarget: button });
+        //         // };
+        //     };
+        // });
 
     } catch (err) {
         console.error("Render error:", err);
