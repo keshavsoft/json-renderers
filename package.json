@@ -1,7 +1,7 @@
 {
   "name": "json-renderers",
-  "version": "1.21.7",
-  "description": "Browser DOM component renderer built on top of json-renderers-build and @keshavsoft/json-to-tag",
+  "version": "1.21.8",
+  "description": "Browser DOM component renderer built on top of json-renderers-build and @keshavsoft/json-to-dom",
   "type": "module",
   "main": "src/index.js",
   "files": [
@@ -27,7 +27,8 @@
   "keywords": [
     "json-renderers",
     "json-renderers-build",
-    "json-to-tag",
+    "@keshavsoft/json-to-dom",
+    "json-to-dom",
     "json-to-spec",
     "dom-renderer",
     "table",
