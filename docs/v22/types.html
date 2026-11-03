@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Component Types — json-renderers v22</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:#f8fafc;color:#1e293b;line-height:1.7}
+    pre,code{font-family:'Fira Code',monospace}
+    a{color:#be185d;text-decoration:none} a:hover{text-decoration:underline}
+
+    .nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid #e2e8f0;padding:13px 24px;display:flex;align-items:center;justify-content:space-between}
+    .nav-left{display:flex;align-items:center;gap:10px;font-weight:700;font-size:14px;color:#0f172a}
+    .nav-logo{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#10b981,#6366f1);display:grid;place-items:center;color:#fff;font-size:14px}
+    .nav-links{display:flex;gap:6px}
+    .nav-links a{font-size:12px;color:#64748b;font-weight:600;padding:5px 11px;border-radius:7px;transition:.15s;text-decoration:none}
+    .nav-links a:hover{background:#f1f5f9;color:#0f172a}
+    .nav-links a.active{background:#fce7f3;color:#be185d}
+
+    .wrap{max-width:900px;margin:0 auto;padding:40px 24px 80px}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:#94a3b8;font-family:'Fira Code',monospace;margin-bottom:28px}
+    .breadcrumb span{color:#be185d;font-weight:600}
+    .page-badge{display:inline-flex;gap:6px;align-items:center;padding:4px 12px;border-radius:99px;background:#fce7f3;border:1px solid #f9a8d4;color:#be185d;font-size:11px;font-family:'Fira Code',monospace;font-weight:700;margin-bottom:14px}
+    h1{font-size:clamp(26px,4vw,38px);font-weight:800;color:#0f172a;letter-spacing:-.03em;line-height:1.2;margin-bottom:14px}
+    .lead{font-size:14px;color:#475569;line-height:1.8;margin-bottom:32px;padding-bottom:28px;border-bottom:1px solid #e2e8f0}
+    p{font-size:14px;color:#475569;line-height:1.8;margin-bottom:12px}
+    code.ic{background:#fce7f3;border:1px solid #f9a8d4;border-radius:5px;padding:2px 7px;font-size:12.5px;color:#9d174d}
+
+    /* Type cards */
+    .type-card{background:#fff;border:1px solid #e2e8f0;border-radius:18px;padding:28px;margin-bottom:24px;border-left:5px solid}
+    .type-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;gap:16px}
+    .type-icon{font-size:32px;flex-shrink:0}
+    .type-meta{flex:1}
+    .type-name{font-family:'Fira Code',monospace;font-size:18px;font-weight:700;margin-bottom:4px}
+    .type-tagline{font-size:13px;color:#64748b}
+    .type-desc{font-size:13px;color:#475569;line-height:1.75;margin-bottom:16px}
+    h3.options-label{font-size:12px;font-family:'Fira Code',monospace;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;margin-bottom:10px}
+    .options-pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
+    .opt-pill{font-family:'Fira Code',monospace;font-size:11px;font-weight:600;padding:3px 10px;border-radius:6px;border:1px solid;display:flex;align-items:center;gap:5px}
+
+    /* code block */
+    .cblock{background:#0f172a;border-radius:12px;padding:18px 22px;overflow-x:auto;margin:12px 0}
+    .cblock pre{font-size:12px;line-height:1.85;color:#e2e8f0}
+    .ck{color:#94a3b8} .cs{color:#86efac} .cb{color:#fbbf24} .cv{color:#60a5fa} .cc{color:#4b5563;font-style:italic} .ch{color:#34d399;font-weight:700}
+
+    /* per-type color themes */
+    .t-table {border-left-color:#10b981}
+    .t-table .type-name{color:#065f46}
+    .t-table .opt-pill{background:#d1fae5;border-color:#6ee7b7;color:#065f46}
+
+    .t-form {border-left-color:#6366f1}
+    .t-form .type-name{color:#4f46e5}
+    .t-form .opt-pill{background:#ede9fe;border-color:#c4b5fd;color:#4f46e5}
+
+    .t-select {border-left-color:#0369a1}
+    .t-select .type-name{color:#0369a1}
+    .t-select .opt-pill{background:#e0f2fe;border-color:#7dd3fc;color:#0369a1}
+
+    .t-datalist {border-left-color:#7c3aed}
+    .t-datalist .type-name{color:#7c3aed}
+    .t-datalist .opt-pill{background:#ede9fe;border-color:#c4b5fd;color:#7c3aed}
+
+    .t-search {border-left-color:#b45309}
+    .t-search .type-name{color:#b45309}
+    .t-search .opt-pill{background:#fef3c7;border-color:#fcd34d;color:#92400e}
+
+    .next-nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:48px;padding-top:28px;border-top:1px solid #e2e8f0}
+    .next-card{display:block;padding:16px 18px;border-radius:12px;border:1px solid #e2e8f0;background:#fff;transition:all .2s;color:inherit;text-decoration:none}
+    .next-card:hover{border-color:#be185d;transform:translateY(-2px);box-shadow:0 4px 14px rgba(190,24,93,.08)}
+    .next-sub{font-size:11px;font-family:'Fira Code',monospace;color:#94a3b8;margin-bottom:4px}
+    .next-title{font-size:13px;font-weight:700;color:#0f172a;display:flex;justify-content:space-between}
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-left">
+    <div class="nav-logo">🖥️</div>
+    json-renderers <span style="font-size:11px;background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0;border-radius:99px;padding:2px 8px;font-family:'Fira Code',monospace;margin-left:6px">v22</span>
+  </div>
+  <div class="nav-links">
+    <a href="index.html">Hub</a>
+    <a href="what.html">What</a>
+    <a href="contract.html">Contract</a>
+    <a href="data-columns.html">Data &amp; Columns</a>
+    <a href="internals.html">Internals</a>
+    <a href="types.html" class="active">Types</a>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="breadcrumb">
+    <a href="index.html" style="color:#94a3b8">docs / v22</a>
+    <span>/</span>
+    <span>types.html</span>
+  </div>
+
+  <div class="page-badge">🧩 Doc 5 · Component Types</div>
+  <h1>What Can You Render?</h1>
+  <p class="lead">
+    The <code class="ic">type</code> field in your config decides which component is built. The same <code class="ic">data</code> and <code class="ic">columns</code> you defined once can produce any of these components — you just change the <code class="ic">type</code>.
+  </p>
+
+  <!-- table.simple -->
+  <div class="type-card t-table">
+    <div class="type-head">
+      <span class="type-icon">📊</span>
+      <div class="type-meta">
+        <div class="type-name">table.simple</div>
+        <div class="type-tagline">Data table with headers and rows</div>
+      </div>
+    </div>
+    <p class="type-desc">Renders a full HTML table. Headers come from your <code class="ic">columns[].label</code>. Rows come from your <code class="ic">data</code> array. Each cell maps a data key to a column via <code class="ic">columnName</code>. Use <code class="ic">options</code> to add extra features.</p>
+    <h3 class="options-label">options flags</h3>
+    <div class="options-pills">
+      <span class="opt-pill">showSerial — adds a # column</span>
+      <span class="opt-pill">showSearch — adds a live search bar</span>
+      <span class="opt-pill">showOptions — adds a "show" action button per row</span>
+    </div>
+    <div class="cblock"><pre>window.ks.jsonRenderers.<span class="ch">render</span>({
+  <span class="ck">type</span>:    <span class="cs">"table.simple"</span>,
+  data, columns,
+  <span class="ck">options</span>: { <span class="ck">showSerial</span>: <span class="cb">true</span>, <span class="ck">showSearch</span>: <span class="cb">true</span>, <span class="ck">showOptions</span>: <span class="cb">true</span> },
+  <span class="ck">targetHtmlId</span>:   <span class="cs">"my-container"</span>,
+  <span class="ck">appendPosition</span>: <span class="cs">"replace"</span>
+});</pre></div>
+  </div>
+
+  <!-- form -->
+  <div class="type-card t-form">
+    <div class="type-head">
+      <span class="type-icon">📝</span>
+      <div class="type-meta">
+        <div class="type-name">form</div>
+        <div class="type-tagline">Input form, schema from columns, values from data</div>
+      </div>
+    </div>
+    <p class="type-desc">Renders a complete input form. Each column becomes one form field — its <code class="ic">type</code> determines the input kind (<code class="ic">text</code>, <code class="ic">select</code>, <code class="ic">checkbox</code>, <code class="ic">textarea</code>). The first data record (<code class="ic">data[0]</code>) pre-fills the values.</p>
+    <h3 class="options-label">options flags</h3>
+    <div class="options-pills">
+      <span class="opt-pill">title — form heading text</span>
+      <span class="opt-pill">submitLabel — text on the submit button</span>
+    </div>
+    <div class="cblock"><pre>window.ks.jsonRenderers.<span class="ch">render</span>({
+  <span class="ck">type</span>: <span class="cs">"form"</span>,
+  data, columns,
+  <span class="ck">options</span>: {
+    <span class="ck">title</span>:       <span class="cs">"Edit Product Record"</span>,
+    <span class="ck">submitLabel</span>: <span class="cs">"Save Item"</span>
+  }
+});</pre></div>
+  </div>
+
+  <!-- select -->
+  <div class="type-card t-select">
+    <div class="type-head">
+      <span class="type-icon">▣</span>
+      <div class="type-meta">
+        <div class="type-name">select</div>
+        <div class="type-tagline">Dropdown — auto-targets the select-type column</div>
+      </div>
+    </div>
+    <p class="type-desc">Renders a <code class="ic">&lt;select&gt;</code> dropdown. It automatically finds the column in your <code class="ic">columns</code> array that has <code class="ic">type: "select"</code> and uses its <code class="ic">options</code> array as the dropdown choices. No extra configuration needed.</p>
+    <h3 class="options-label">options flags</h3>
+    <div class="options-pills">
+      <span class="opt-pill">No extra options needed — auto-targets select column</span>
+    </div>
+    <div class="cblock"><pre>window.ks.jsonRenderers.<span class="ch">render</span>({
+  <span class="ck">type</span>: <span class="cs">"select"</span>,
+  data, columns
+  <span class="cc">// automatically picks "category" column (type: "select")</span>
+});</pre></div>
+  </div>
+
+  <!-- dataList -->
+  <div class="type-card t-datalist">
+    <div class="type-head">
+      <span class="type-icon">🔍</span>
+      <div class="type-meta">
+        <div class="type-name">dataList</div>
+        <div class="type-tagline">Native browser autocomplete input</div>
+      </div>
+    </div>
+    <p class="type-desc">Renders a native browser <code class="ic">&lt;datalist&gt;</code> linked to an <code class="ic">&lt;input&gt;</code>. As the user types, the browser shows matching suggestions drawn from your data. Auto-targets the first <code class="ic">text</code>-type column.</p>
+    <h3 class="options-label">options flags</h3>
+    <div class="options-pills">
+      <span class="opt-pill">No extra options needed — auto-targets text column</span>
+    </div>
+    <div class="cblock"><pre>window.ks.jsonRenderers.<span class="ch">render</span>({
+  <span class="ck">type</span>:          <span class="cs">"dataList"</span>,
+  data, columns,
+  <span class="ck">targetHtmlId</span>:   <span class="cs">"my-container"</span>,
+  <span class="ck">appendPosition</span>: <span class="cs">"replace"</span>
+});</pre></div>
+  </div>
+
+  <!-- searchInput -->
+  <div class="type-card t-search">
+    <div class="type-head">
+      <span class="type-icon">🔎</span>
+      <div class="type-meta">
+        <div class="type-name">searchInput</div>
+        <div class="type-tagline">Standalone search bar with label</div>
+      </div>
+    </div>
+    <p class="type-desc">Renders a standalone search <code class="ic">&lt;input&gt;</code> with an optional label. Useful when you want to separately render a search bar and connect it to a table or list programmatically.</p>
+    <h3 class="options-label">options flags</h3>
+    <div class="options-pills">
+      <span class="opt-pill">label — text label above the input</span>
+      <span class="opt-pill">placeholder — placeholder text inside the input</span>
+    </div>
+    <div class="cblock"><pre>window.ks.jsonRenderers.<span class="ch">render</span>({
+  <span class="ck">type</span>: <span class="cs">"searchInput"</span>,
+  data, columns,
+  <span class="ck">options</span>: {
+    <span class="ck">label</span>:       <span class="cs">"Filter Inventory:"</span>,
+    <span class="ck">placeholder</span>: <span class="cs">"Search item, category, or rate..."</span>
+  }
+});</pre></div>
+  </div>
+
+  <div class="next-nav">
+    <a href="internals.html" class="next-card">
+      <div class="next-sub">Back · Doc 4</div>
+      <div class="next-title"><span>How It Works Inside</span><span>→</span></div>
+    </a>
+    <a href="what.html" class="next-card">
+      <div class="next-sub">Back · Doc 1</div>
+      <div class="next-title"><span>What Are We Doing?</span><span>→</span></div>
+    </a>
+    <a href="index.html" class="next-card">
+      <div class="next-sub">Hub</div>
+      <div class="next-title"><span>All Docs</span><span>→</span></div>
+    </a>
+  </div>
+</div>
+</body>
+</html>
+

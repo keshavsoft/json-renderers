@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How It Works Inside — json-renderers v22</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:#f8fafc;color:#1e293b;line-height:1.7}
+    pre,code{font-family:'Fira Code',monospace}
+    a{color:#b45309;text-decoration:none} a:hover{text-decoration:underline}
+
+    .nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid #e2e8f0;padding:13px 24px;display:flex;align-items:center;justify-content:space-between}
+    .nav-left{display:flex;align-items:center;gap:10px;font-weight:700;font-size:14px;color:#0f172a}
+    .nav-logo{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#10b981,#6366f1);display:grid;place-items:center;color:#fff;font-size:14px}
+    .nav-links{display:flex;gap:6px}
+    .nav-links a{font-size:12px;color:#64748b;font-weight:600;padding:5px 11px;border-radius:7px;transition:.15s;text-decoration:none}
+    .nav-links a:hover{background:#f1f5f9;color:#0f172a}
+    .nav-links a.active{background:#fef3c7;color:#b45309}
+
+    .wrap{max-width:860px;margin:0 auto;padding:40px 24px 80px}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:#94a3b8;font-family:'Fira Code',monospace;margin-bottom:28px}
+    .breadcrumb span{color:#b45309;font-weight:600}
+    .page-badge{display:inline-flex;gap:6px;align-items:center;padding:4px 12px;border-radius:99px;background:#fef3c7;border:1px solid #fcd34d;color:#b45309;font-size:11px;font-family:'Fira Code',monospace;font-weight:700;margin-bottom:14px}
+    h1{font-size:clamp(26px,4vw,38px);font-weight:800;color:#0f172a;letter-spacing:-.03em;line-height:1.2;margin-bottom:14px}
+    .lead{font-size:14px;color:#475569;line-height:1.8;margin-bottom:32px;padding-bottom:28px;border-bottom:1px solid #e2e8f0}
+    h2{font-size:19px;font-weight:700;color:#0f172a;margin:36px 0 12px}
+    p{font-size:14px;color:#475569;line-height:1.8;margin-bottom:12px}
+    code.ic{background:#fef3c7;border:1px solid #fcd34d;border-radius:5px;padding:2px 7px;font-size:12.5px;color:#92400e}
+
+    /* Pipeline steps */
+    .pipeline{display:flex;flex-direction:column;gap:0;margin:28px 0}
+    .step{display:flex;gap:20px;position:relative}
+    .step-line{display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:48px}
+    .step-num{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:14px;color:#fff;flex-shrink:0;z-index:1}
+    .step-connector{width:2px;flex:1;background:#e2e8f0;margin:4px 0}
+    .step:last-child .step-connector{display:none}
+    .step-body{padding-bottom:32px;flex:1}
+    .step-title{font-size:16px;font-weight:700;color:#0f172a;margin-bottom:6px}
+    .step-pkg{font-family:'Fira Code',monospace;font-size:11px;font-weight:600;padding:2px 8px;border-radius:5px;border:1px solid;margin-bottom:10px;display:inline-block}
+    .step-desc{font-size:13px;color:#475569;line-height:1.75}
+
+    .s1 .step-num{background:#6366f1} .s1 .step-pkg{color:#4f46e5;background:#ede9fe;border-color:#c4b5fd}
+    .s2 .step-num{background:#0369a1} .s2 .step-pkg{color:#0369a1;background:#e0f2fe;border-color:#7dd3fc}
+    .s3 .step-num{background:#b45309} .s3 .step-pkg{color:#b45309;background:#fef3c7;border-color:#fcd34d}
+    .s4 .step-num{background:#10b981} .s4 .step-pkg{color:#065f46;background:#d1fae5;border-color:#6ee7b7}
+
+    /* Code block */
+    .cblock{background:#0f172a;border-radius:12px;padding:20px 24px;overflow-x:auto;margin:14px 0}
+    .cblock pre{font-size:12.5px;line-height:1.9;color:#e2e8f0}
+    .ck{color:#94a3b8} .cs{color:#86efac} .cv{color:#60a5fa} .cc{color:#4b5563;font-style:italic} .ch{color:#34d399;font-weight:700} .cp{color:#f9a8d4}
+
+    /* source file link */
+    .src-link{display:inline-flex;align-items:center;gap:6px;font-family:'Fira Code',monospace;font-size:11px;color:#64748b;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:4px 10px;margin-bottom:12px}
+
+    .callout{background:#fff;border-left:4px solid #b45309;border-radius:0 12px 12px 0;padding:16px 20px;margin:20px 0}
+    .callout p{font-size:13px;color:#1e293b;margin:0;line-height:1.7}
+
+    .next-nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:48px;padding-top:28px;border-top:1px solid #e2e8f0}
+    .next-card{display:block;padding:16px 18px;border-radius:12px;border:1px solid #e2e8f0;background:#fff;transition:all .2s;color:inherit;text-decoration:none}
+    .next-card:hover{border-color:#b45309;transform:translateY(-2px);box-shadow:0 4px 14px rgba(180,83,9,.1)}
+    .next-sub{font-size:11px;font-family:'Fira Code',monospace;color:#94a3b8;margin-bottom:4px}
+    .next-title{font-size:13px;font-weight:700;color:#0f172a;display:flex;justify-content:space-between}
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-left">
+    <div class="nav-logo">🖥️</div>
+    json-renderers <span style="font-size:11px;background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0;border-radius:99px;padding:2px 8px;font-family:'Fira Code',monospace;margin-left:6px">v22</span>
+  </div>
+  <div class="nav-links">
+    <a href="index.html">Hub</a>
+    <a href="what.html">What</a>
+    <a href="contract.html">Contract</a>
+    <a href="data-columns.html">Data &amp; Columns</a>
+    <a href="internals.html" class="active">Internals</a>
+    <a href="types.html">Types</a>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="breadcrumb">
+    <a href="index.html" style="color:#94a3b8">docs / v22</a>
+    <span>/</span>
+    <span>internals.html</span>
+  </div>
+
+  <div class="page-badge">⚙️ Doc 4 · Internals</div>
+  <h1>How It Works Inside</h1>
+  <p class="lead">
+    You call <code class="ic">render(config)</code>. Four things happen in sequence. This document shows exactly what each step does, which library is responsible, and what the v22 source code actually says.
+  </p>
+
+  <h2>The 4-Step Pipeline</h2>
+
+  <div class="pipeline">
+
+    <!-- Step 1: Validate -->
+    <div class="step s1">
+      <div class="step-line">
+        <div class="step-num">1</div>
+        <div class="step-connector"></div>
+      </div>
+      <div class="step-body">
+        <div class="step-title">Validate the config</div>
+        <span class="step-pkg">json-renderers-guard</span>
+        <div class="step-desc">
+          Before anything is built, the config object is validated. The guard checks both groups — Spec fields (<code class="ic">type</code>, <code class="ic">data</code>, <code class="ic">columns</code>) and Mount fields (<code class="ic">targetHtmlId</code>, <code class="ic">classToApply</code>, <code class="ic">appendPosition</code>). If anything is wrong, it throws a clear error immediately.
+        </div>
+        <div class="cblock">
+          <pre><span class="cc">// src/v22/index.js — Step 1</span>
+<span class="ch">guardFunc</span>(config); <span class="cc">// throws if invalid — no DOM work happens yet</span></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: Build Spec -->
+    <div class="step s2">
+      <div class="step-line">
+        <div class="step-num">2</div>
+        <div class="step-connector"></div>
+      </div>
+      <div class="step-body">
+        <div class="step-title">Build a JSON Spec (the AST)</div>
+        <span class="step-pkg">json-renderers-specs</span>
+        <div class="step-desc">
+          <code class="ic">buildSpec()</code> is called with <code class="ic">type</code>, <code class="ic">data</code>, <code class="ic">columns</code>, and <code class="ic">options</code>. It calls <code class="ic">json-renderers-specs</code> which produces a pure JSON object describing the entire component structure — tags, attributes, classes, rows, headers. <strong>No DOM is created yet.</strong> This is called <code class="ic">specAsJsonToDom</code>.
+        </div>
+        <div class="cblock">
+          <pre><span class="cc">// src/v22/buildSpec/index.js — Step 2</span>
+<span class="cv">import</span> jsonRenderBuild <span class="cv">from</span> <span class="cs">"json-renderers-specs"</span>;
+
+<span class="ck">const</span> specAsJsonToDom = <span class="ch">jsonRenderBuild</span>({
+  type:    localType,
+  data:    localData,
+  columns: localColumns,
+  options: localOptions,
+});</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3: Create DOM -->
+    <div class="step s3">
+      <div class="step-line">
+        <div class="step-num">3</div>
+        <div class="step-connector"></div>
+      </div>
+      <div class="step-body">
+        <div class="step-title">Convert the spec to real DOM nodes</div>
+        <span class="step-pkg">@keshavsoft/json-to-dom</span>
+        <div class="step-desc">
+          The JSON spec is handed to <code class="ic">@keshavsoft/json-to-dom</code>. This library reads the spec and calls <code class="ic">document.createElement()</code> for every tag in the tree — creating real, live <code class="ic">HTMLTableElement</code>, <code class="ic">HTMLSelectElement</code>, <code class="ic">HTMLInputElement</code> nodes. It also resolves the <code class="ic">targetHtmlId</code> and mounts the finished nodes into the container.
+        </div>
+        <div class="cblock">
+          <pre><span class="cc">// src/v22/index.js — Step 3 & 4 combined</span>
+<span class="ck">const</span> dom = <span class="ch">jsonToDom</span>({
+  jsonSpec:      spec,           <span class="cc">// the AST from Step 2</span>
+  targetHtmlId:  config.targetHtmlId,
+  appendPosition: config.appendPosition,
+  showLog
+});</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4: Mount -->
+    <div class="step s4">
+      <div class="step-line">
+        <div class="step-num">4</div>
+        <div class="step-connector"></div>
+      </div>
+      <div class="step-body">
+        <div class="step-title">Mount into the page &amp; return</div>
+        <span class="step-pkg">json-renderers (this repo)</span>
+        <div class="step-desc">
+          The component is now inside <code class="ic">document.getElementById(targetHtmlId)</code>. The <code class="ic">render()</code> function returns the mounted DOM element. Your component is live on the page.
+        </div>
+        <div class="cblock">
+          <pre><span class="cc">// src/v22/index.js — return</span>
+<span class="ck">return</span> dom; <span class="cc">// the mounted HTMLElement</span></pre>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="callout">
+    <p><strong>Key point:</strong> <code>json-renderers</code> itself does not write DOM directly. It is the coordinator. The actual DOM node creation is entirely inside <code>@keshavsoft/json-to-dom</code>. The spec construction is entirely inside <code>json-renderers-specs</code>. This repo wires them together.</p>
+  </div>
+
+  <h2>The Complete v22 Source — index.js</h2>
+  <p>Here is the full orchestrator file, all 41 lines:</p>
+  <div class="cblock">
+    <pre><span class="cv">import</span> registerGlobal <span class="cv">from</span> <span class="cs">"./registerGlobal.js"</span>;
+<span class="cv">import</span> guardFunc      <span class="cv">from</span> <span class="cs">"json-renderers-guard"</span>;
+<span class="cv">import</span> jsonToDom      <span class="cv">from</span> <span class="cs">"@keshavsoft/json-to-dom"</span>;
+<span class="cv">import</span> buildSpec      <span class="cv">from</span> <span class="cs">"./buildSpec/index.js"</span>;
+
+<span class="cc">// Main orchestrator: validate → build spec → create DOM → mount</span>
+<span class="ck">const</span> <span class="ch">render</span> = (config = {}) => {
+    <span class="ch">guardFunc</span>(config);                      <span class="cc">// Step 1: validate</span>
+
+    <span class="ck">const</span> spec = <span class="ch">buildSpec</span>({                 <span class="cc">// Step 2: build JSON AST</span>
+        inColumns: config.columns,
+        inData:    config.data,
+        inType:    config.type,
+        inShowLog: config.showLog,
+        inOptions: config.options
+    });
+
+    <span class="ck">const</span> dom = <span class="ch">jsonToDom</span>({                  <span class="cc">// Steps 3 & 4: create DOM + mount</span>
+        jsonSpec:       spec,
+        targetHtmlId:   config.targetHtmlId,
+        appendPosition: config.appendPosition,
+        showLog:        config.showLog
+    });
+
+    <span class="ck">return</span> dom;
+};
+
+<span class="ch">registerGlobal</span>(render); <span class="cc">// attaches window.ks.jsonRenderers.render</span>
+
+<span class="cv">export</span> { render };
+<span class="cv">export default</span> render;</pre>
+  </div>
+
+  <div class="next-nav">
+    <a href="types.html" class="next-card">
+      <div class="next-sub">Next · Doc 5</div>
+      <div class="next-title"><span>Component Types</span><span>→</span></div>
+    </a>
+    <a href="contract.html" class="next-card">
+      <div class="next-sub">Back · Doc 2</div>
+      <div class="next-title"><span>The Input Contract</span><span>→</span></div>
+    </a>
+    <a href="index.html" class="next-card">
+      <div class="next-sub">Back</div>
+      <div class="next-title"><span>Docs Hub</span><span>→</span></div>
+    </a>
+  </div>
+</div>
+</body>
+</html>
+

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data &amp; Columns in Detail — json-renderers v22</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:#f8fafc;color:#1e293b;line-height:1.7}
+    pre,code{font-family:'Fira Code',monospace}
+    a{color:#0f766e;text-decoration:none} a:hover{text-decoration:underline}
+
+    .nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid #e2e8f0;padding:13px 24px;display:flex;align-items:center;justify-content:space-between}
+    .nav-left{display:flex;align-items:center;gap:10px;font-weight:700;font-size:14px;color:#0f172a}
+    .nav-logo{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#10b981,#6366f1);display:grid;place-items:center;color:#fff;font-size:14px}
+    .nav-links{display:flex;gap:6px}
+    .nav-links a{font-size:12px;color:#64748b;font-weight:600;padding:5px 11px;border-radius:7px;transition:.15s;text-decoration:none}
+    .nav-links a:hover{background:#f1f5f9;color:#0f172a}
+    .nav-links a.active{background:#ccfbf1;color:#0f766e}
+
+    .wrap{max-width:860px;margin:0 auto;padding:40px 24px 80px}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:#94a3b8;font-family:'Fira Code',monospace;margin-bottom:28px}
+    .breadcrumb span{color:#0f766e;font-weight:600}
+    .page-badge{display:inline-flex;gap:6px;align-items:center;padding:4px 12px;border-radius:99px;background:#ccfbf1;border:1px solid #5eead4;color:#0f766e;font-size:11px;font-family:'Fira Code',monospace;font-weight:700;margin-bottom:14px}
+    h1{font-size:clamp(26px,4vw,38px);font-weight:800;color:#0f172a;letter-spacing:-.03em;line-height:1.2;margin-bottom:14px}
+    .lead{font-size:14px;color:#475569;line-height:1.8;margin-bottom:32px;padding-bottom:28px;border-bottom:1px solid #e2e8f0}
+    h2{font-size:19px;font-weight:700;color:#0f172a;margin:40px 0 12px;padding-top:8px}
+    h3{font-size:15px;font-weight:700;color:#0f172a;margin:22px 0 10px}
+    p{font-size:14px;color:#475569;line-height:1.8;margin-bottom:12px}
+    code.ic{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:5px;padding:2px 7px;font-size:12.5px;color:#0f766e}
+
+    /* section cards */
+    .section-card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:28px;margin-bottom:24px}
+    .section-head{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid #f1f5f9}
+    .section-icon{font-size:26px}
+    .section-title{font-size:17px;font-weight:700;color:#0f172a}
+    .section-sub{font-size:12px;font-family:'Fira Code',monospace;color:#0f766e;font-weight:600}
+
+    /* code block */
+    .cblock{background:#0f172a;border-radius:12px;padding:20px 24px;overflow-x:auto;margin:16px 0}
+    .cblock pre{font-size:13px;line-height:1.9;color:#e2e8f0}
+    .ck{color:#94a3b8}
+    .cs{color:#86efac}
+    .cb{color:#fbbf24}
+    .cc{color:#4b5563;font-style:italic}
+    .ct{color:#67e8f9}
+
+    /* field table */
+    .field-table{width:100%;border-collapse:collapse;margin:16px 0}
+    .field-table th{text-align:left;font-size:11px;font-family:'Fira Code',monospace;font-weight:700;text-transform:uppercase;color:#94a3b8;padding:8px 12px;border-bottom:2px solid #e2e8f0}
+    .field-table td{font-size:13px;padding:10px 12px;border-bottom:1px solid #f1f5f9;vertical-align:top}
+    .field-table tr:last-child td{border-bottom:none}
+    .field-name{font-family:'Fira Code',monospace;font-weight:600;color:#0f766e;white-space:nowrap}
+    .field-type{font-family:'Fira Code',monospace;font-size:11px;color:#94a3b8;white-space:nowrap}
+    .field-desc{color:#475569;line-height:1.6}
+    .required-pill{font-size:10px;font-family:'Fira Code',monospace;background:#fef2f2;border:1px solid #fca5a5;color:#dc2626;border-radius:4px;padding:1px 5px;margin-left:4px}
+    .optional-pill{font-size:10px;font-family:'Fira Code',monospace;background:#f0fdf4;border:1px solid #86efac;color:#16a34a;border-radius:4px;padding:1px 5px;margin-left:4px}
+
+    /* type badges */
+    .type-pill{display:inline-flex;font-family:'Fira Code',monospace;font-size:11px;font-weight:600;padding:2px 8px;border-radius:5px;border:1px solid;margin:2px 2px 2px 0}
+    .tp-text{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe}
+    .tp-select{background:#fdf4ff;color:#9333ea;border-color:#e9d5ff}
+    .tp-checkbox{background:#fff7ed;color:#c2410c;border-color:#fed7aa}
+    .tp-textarea{background:#f0fdf4;color:#15803d;border-color:#bbf7d0}
+
+    .callout{background:#f0fdf9;border:1px solid #6ee7b7;border-radius:12px;padding:16px 20px;margin:20px 0}
+    .callout p{font-size:13px;color:#134e4a;margin:0;line-height:1.7}
+
+    .next-nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:48px;padding-top:28px;border-top:1px solid #e2e8f0}
+    .next-card{display:block;padding:16px 18px;border-radius:12px;border:1px solid #e2e8f0;background:#fff;transition:all .2s;color:inherit;text-decoration:none}
+    .next-card:hover{border-color:#0f766e;transform:translateY(-2px);box-shadow:0 4px 14px rgba(15,118,110,.1)}
+    .next-sub{font-size:11px;font-family:'Fira Code',monospace;color:#94a3b8;margin-bottom:4px}
+    .next-title{font-size:13px;font-weight:700;color:#0f172a;display:flex;justify-content:space-between}
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-left">
+    <div class="nav-logo">🖥️</div>
+    json-renderers <span style="font-size:11px;background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0;border-radius:99px;padding:2px 8px;font-family:'Fira Code',monospace;margin-left:6px">v22</span>
+  </div>
+  <div class="nav-links">
+    <a href="index.html">Hub</a>
+    <a href="what.html">What</a>
+    <a href="contract.html">Contract</a>
+    <a href="data-columns.html" class="active">Data &amp; Columns</a>
+    <a href="internals.html">Internals</a>
+    <a href="types.html">Types</a>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="breadcrumb">
+    <a href="index.html" style="color:#94a3b8">docs / v22</a>
+    <span>/</span>
+    <span>data-columns.html</span>
+  </div>
+
+  <div class="page-badge">🗄️ Doc 3 · Data &amp; Columns</div>
+  <h1>Data &amp; Columns in Detail</h1>
+  <p class="lead">
+    <code class="ic">data</code> and <code class="ic">columns</code> are the two most important things you supply. Together they form the <strong>common dataset</strong> — a single source of truth that any component type can consume. This document explains exactly what each should look like.
+  </p>
+
+  <!-- DATA -->
+  <div class="section-card">
+    <div class="section-head">
+      <span class="section-icon">📦</span>
+      <div>
+        <div class="section-title">data</div>
+        <div class="section-sub">Array of row objects</div>
+      </div>
+    </div>
+
+    <p><code class="ic">data</code> is always an <strong>Array</strong>. Each element in the array is a plain JavaScript object representing one record (one row in a table, one entry in a form).</p>
+    <p>The keys of each object must match the <code class="ic">columnName</code> values in your <code class="ic">columns</code> array.</p>
+
+    <h3>Shape</h3>
+    <div class="cblock">
+      <pre><span class="ck">const</span> <span class="ct">data</span> = [
+  {
+    <span class="ck">itemName</span>:    <span class="cs">"0.09/30mm High Tensile Bolt"</span>,
+    <span class="ck">category</span>:    <span class="cs">"Fasteners"</span>,
+    <span class="ck">baseUnit</span>:    <span class="cs">"kgs"</span>,
+    <span class="ck">openingRate</span>: <span class="cs">"1200.00/kgs"</span>,
+    <span class="ck">inStock</span>:     <span class="cb">true</span>,
+    <span class="ck">notes</span>:       <span class="cs">"Grade 8.8 tensile steel bolt for industrial heavy machinery."</span>
+  },
+  {
+    <span class="ck">itemName</span>:    <span class="cs">"0.11-25 Galvanized Wire Coil"</span>,
+    <span class="ck">category</span>:    <span class="cs">"Raw Materials"</span>,
+    <span class="ck">baseUnit</span>:    <span class="cs">"kgs"</span>,
+    <span class="ck">openingRate</span>: <span class="cs">"1450.00/kgs"</span>,
+    <span class="ck">inStock</span>:     <span class="cb">true</span>,
+    <span class="ck">notes</span>:       <span class="cs">"Zinc coated anti-corrosive high-durability wire coil."</span>
+  }
+  <span class="cc">// ... more records</span>
+];</pre>
+    </div>
+
+    <div class="callout">
+      <p>Each object in <code>data</code> is one row. The keys are the <strong>column names</strong> — they must match the <code>columnName</code> field in your <code>columns</code> definitions.</p>
+    </div>
+  </div>
+
+  <!-- COLUMNS -->
+  <div class="section-card">
+    <div class="section-head">
+      <span class="section-icon">🗂️</span>
+      <div>
+        <div class="section-title">columns</div>
+        <div class="section-sub">Array of column definition objects</div>
+      </div>
+    </div>
+
+    <p><code class="ic">columns</code> is always an <strong>Array of objects</strong>. Each object defines one column — its machine name, its human label, its input type, its display width, and any constraints.</p>
+    <p>This is your <strong>schema</strong>. The same <code class="ic">columns</code> array drives every component type — a table, a form, a select dropdown all read from the same definition.</p>
+
+    <h3>Fields of Each Column Object</h3>
+    <table class="field-table">
+      <thead>
+        <tr>
+          <th>Field</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="field-name">columnName</span> <span class="required-pill">required</span></td>
+          <td class="field-type">string</td>
+          <td class="field-desc">The machine key. Must match the key in each <code class="ic">data</code> object.</td>
+        </tr>
+        <tr>
+          <td><span class="field-name">label</span> <span class="required-pill">required</span></td>
+          <td class="field-type">string</td>
+          <td class="field-desc">The human-readable header shown in tables and form labels.</td>
+        </tr>
+        <tr>
+          <td><span class="field-name">type</span> <span class="required-pill">required</span></td>
+          <td class="field-type">string</td>
+          <td class="field-desc">The input type for this column. Controls how forms and tables render it.
+            <br><br>
+            <span class="type-pill tp-text">text</span>
+            <span class="type-pill tp-select">select</span>
+            <span class="type-pill tp-checkbox">checkbox</span>
+            <span class="type-pill tp-textarea">textarea</span>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="field-name">width</span> <span class="optional-pill">optional</span></td>
+          <td class="field-type">string</td>
+          <td class="field-desc">CSS width for this column in the table. e.g. <code class="ic">"240px"</code>, <code class="ic">"120px"</code></td>
+        </tr>
+        <tr>
+          <td><span class="field-name">placeholder</span> <span class="optional-pill">optional</span></td>
+          <td class="field-type">string</td>
+          <td class="field-desc">Placeholder text for form inputs. e.g. <code class="ic">"Enter item description..."</code></td>
+        </tr>
+        <tr>
+          <td><span class="field-name">required</span> <span class="optional-pill">optional</span></td>
+          <td class="field-type">boolean</td>
+          <td class="field-desc">Marks this field as required in form rendering.</td>
+        </tr>
+        <tr>
+          <td><span class="field-name">options</span> <span class="optional-pill">only for select</span></td>
+          <td class="field-type">string[]</td>
+          <td class="field-desc">Available choices for <code class="ic">type: "select"</code> columns. e.g. <code class="ic">["Fasteners", "Raw Materials"]</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Full Example (the real columns.json)</h3>
+    <div class="cblock">
+      <pre><span class="ck">const</span> <span class="ct">columns</span> = [
+  {
+    <span class="ck">columnName</span>:  <span class="cs">"itemName"</span>,
+    <span class="ck">label</span>:       <span class="cs">"Item Name"</span>,
+    <span class="ck">type</span>:        <span class="cs">"text"</span>,
+    <span class="ck">width</span>:       <span class="cs">"260px"</span>,
+    <span class="ck">placeholder</span>: <span class="cs">"Enter item description..."</span>,
+    <span class="ck">required</span>:    <span class="cb">true</span>
+  },
+  {
+    <span class="ck">columnName</span>: <span class="cs">"category"</span>,
+    <span class="ck">label</span>:      <span class="cs">"Category"</span>,
+    <span class="ck">type</span>:       <span class="cs">"select"</span>,
+    <span class="ck">width</span>:      <span class="cs">"180px"</span>,
+    <span class="ck">options</span>:    [<span class="cs">"Fasteners"</span>, <span class="cs">"Raw Materials"</span>, <span class="cs">"Extrusions"</span>, <span class="cs">"Electrical"</span>],
+    <span class="ck">required</span>:   <span class="cb">true</span>
+  },
+  {
+    <span class="ck">columnName</span>:  <span class="cs">"baseUnit"</span>,
+    <span class="ck">label</span>:       <span class="cs">"Base Unit"</span>,
+    <span class="ck">type</span>:        <span class="cs">"text"</span>,
+    <span class="ck">width</span>:       <span class="cs">"120px"</span>,
+    <span class="ck">placeholder</span>: <span class="cs">"e.g. kgs, pcs, boxes"</span>
+  },
+  {
+    <span class="ck">columnName</span>: <span class="cs">"inStock"</span>,
+    <span class="ck">label</span>:      <span class="cs">"In Stock"</span>,
+    <span class="ck">type</span>:       <span class="cs">"checkbox"</span>
+  },
+  {
+    <span class="ck">columnName</span>:  <span class="cs">"notes"</span>,
+    <span class="ck">label</span>:       <span class="cs">"Specifications / Notes"</span>,
+    <span class="ck">type</span>:        <span class="cs">"textarea"</span>,
+    <span class="ck">placeholder</span>: <span class="cs">"Enter technical specifications..."</span>
+  }
+];</pre>
+    </div>
+  </div>
+
+  <!-- THE CONNECTION -->
+  <div class="section-card">
+    <div class="section-head">
+      <span class="section-icon">🔗</span>
+      <div>
+        <div class="section-title">How data and columns connect</div>
+        <div class="section-sub">The key-to-columnName link</div>
+      </div>
+    </div>
+    <p>The <code class="ic">columnName</code> in each column definition is the bridge to your data:</p>
+    <div class="cblock">
+      <pre><span class="cc">// columns says: columnName is "itemName"</span>
+{ <span class="ck">columnName</span>: <span class="cs">"itemName"</span>, <span class="ck">label</span>: <span class="cs">"Item Name"</span>, ... }
+
+<span class="cc">// data record uses the same key: "itemName"</span>
+{ <span class="ck">itemName</span>: <span class="cs">"0.09/30mm High Tensile Bolt"</span>, ... }
+
+<span class="cc">// Result in the table cell:</span>
+<span class="cc">// &lt;td&gt;0.09/30mm High Tensile Bolt&lt;/td&gt;</span></pre>
+    </div>
+    <p>The system reads the label from <code class="ic">columns</code> to build the table header, and reads the value from <code class="ic">data</code> using the same <code class="ic">columnName</code> key to fill each cell.</p>
+  </div>
+
+  <div class="next-nav">
+    <a href="internals.html" class="next-card">
+      <div class="next-sub">Next · Doc 4</div>
+      <div class="next-title"><span>How It Works Inside</span><span>→</span></div>
+    </a>
+    <a href="types.html" class="next-card">
+      <div class="next-sub">Next · Doc 5</div>
+      <div class="next-title"><span>Component Types</span><span>→</span></div>
+    </a>
+    <a href="index.html" class="next-card">
+      <div class="next-sub">Back</div>
+      <div class="next-title"><span>Docs Hub</span><span>→</span></div>
+    </a>
+  </div>
+</div>
+</body>
+</html>
+

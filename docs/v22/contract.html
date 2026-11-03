@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Input Contract — json-renderers v22</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:#f8fafc;color:#1e293b;line-height:1.7}
+    pre,code{font-family:'Fira Code',monospace}
+    a{color:#7c3aed;text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    .nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid #e2e8f0;padding:13px 24px;display:flex;align-items:center;justify-content:space-between}
+    .nav-left{display:flex;align-items:center;gap:10px;font-weight:700;font-size:14px;color:#0f172a}
+    .nav-logo{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#10b981,#6366f1);display:grid;place-items:center;color:#fff;font-size:14px}
+    .nav-links{display:flex;gap:6px}
+    .nav-links a{font-size:12px;color:#64748b;font-weight:600;padding:5px 11px;border-radius:7px;transition:.15s;text-decoration:none}
+    .nav-links a:hover{background:#f1f5f9;color:#0f172a}
+    .nav-links a.active{background:#ede9fe;color:#7c3aed}
+
+    .wrap{max-width:860px;margin:0 auto;padding:40px 24px 80px}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:#94a3b8;font-family:'Fira Code',monospace;margin-bottom:28px}
+    .breadcrumb span{color:#7c3aed;font-weight:600}
+    .page-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:99px;background:#ede9fe;border:1px solid #c4b5fd;color:#7c3aed;font-size:11px;font-family:'Fira Code',monospace;font-weight:700;margin-bottom:14px}
+    h1{font-size:clamp(26px,4vw,38px);font-weight:800;color:#0f172a;letter-spacing:-.03em;line-height:1.2;margin-bottom:14px}
+    .lead{font-size:14px;color:#475569;line-height:1.8;margin-bottom:32px;padding-bottom:28px;border-bottom:1px solid #e2e8f0}
+    h2{font-size:19px;font-weight:700;color:#0f172a;margin:36px 0 12px}
+    p{font-size:14px;color:#475569;line-height:1.8;margin-bottom:12px}
+
+    /* Two group columns */
+    .groups{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:24px 0}
+    @media(max-width:680px){.groups{grid-template-columns:1fr}}
+    .group-card{background:#fff;border-radius:16px;border:2px solid;padding:22px}
+    .gc-spec{border-color:#6366f1}
+    .gc-mount{border-color:#10b981}
+    .group-head{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+    .group-icon{font-size:22px}
+    .group-title{font-size:15px;font-weight:700;color:#0f172a}
+    .group-sub{font-size:11px;font-family:'Fira Code',monospace;font-weight:600}
+    .gc-spec .group-sub{color:#6366f1}
+    .gc-mount .group-sub{color:#10b981}
+
+    /* param rows */
+    .param{padding:12px 14px;border-radius:10px;background:#f8fafc;border:1px solid #e2e8f0;margin-bottom:8px}
+    .param:last-child{margin-bottom:0}
+    .param-name{font-family:'Fira Code',monospace;font-size:13px;font-weight:600}
+    .gc-spec .param-name{color:#4f46e5}
+    .gc-mount .param-name{color:#059669}
+    .param-type{font-family:'Fira Code',monospace;font-size:11px;color:#94a3b8;margin-left:8px}
+    .param-desc{font-size:12px;color:#64748b;margin-top:4px;line-height:1.6}
+    code.pill{font-family:'Fira Code',monospace;font-size:11px;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:4px;padding:1px 5px;color:#1d4ed8}
+
+    /* Full annotated call */
+    .code-card{background:#0f172a;border-radius:14px;padding:24px 28px;margin:24px 0;overflow-x:auto}
+    .code-card pre{font-size:13px;line-height:2;color:#e2e8f0}
+    .ck{color:#94a3b8}  /* key */
+    .cs{color:#86efac}  /* string value */
+    .cb{color:#fbbf24}  /* boolean */
+    .cv{color:#60a5fa}  /* variable */
+    .cc{color:#64748b;font-style:italic}  /* comment */
+    .ch{color:#34d399;font-weight:700}    /* highlight */
+
+    /* callout */
+    .callout{background:#fff;border-left:4px solid #7c3aed;border-radius:0 12px 12px 0;padding:16px 20px;margin:24px 0;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+    .callout p{font-size:13px;color:#1e293b;margin:0;line-height:1.7}
+
+    /* next nav */
+    .next-nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:48px;padding-top:28px;border-top:1px solid #e2e8f0}
+    .next-card{display:block;padding:16px 18px;border-radius:12px;border:1px solid #e2e8f0;background:#fff;transition:all .2s;color:inherit;text-decoration:none}
+    .next-card:hover{border-color:#7c3aed;transform:translateY(-2px);box-shadow:0 4px 14px rgba(124,58,237,.1)}
+    .next-sub{font-size:11px;font-family:'Fira Code',monospace;color:#94a3b8;margin-bottom:4px}
+    .next-title{font-size:13px;font-weight:700;color:#0f172a;display:flex;justify-content:space-between}
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-left">
+    <div class="nav-logo">🖥️</div>
+    json-renderers <span style="font-size:11px;background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0;border-radius:99px;padding:2px 8px;font-family:'Fira Code',monospace;margin-left:6px">v22</span>
+  </div>
+  <div class="nav-links">
+    <a href="index.html">Hub</a>
+    <a href="what.html">What</a>
+    <a href="contract.html" class="active">Contract</a>
+    <a href="data-columns.html">Data &amp; Columns</a>
+    <a href="internals.html">Internals</a>
+    <a href="types.html">Types</a>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="breadcrumb">
+    <a href="index.html" style="color:#94a3b8">docs / v22</a>
+    <span>/</span>
+    <span>contract.html</span>
+  </div>
+
+  <div class="page-badge">📋 Doc 2 · The Contract</div>
+  <h1>The Input Contract</h1>
+  <p class="lead">
+    When you call <code style="background:#ede9fe;color:#7c3aed;border:1px solid #c4b5fd;border-radius:6px;padding:2px 8px;font-size:13px">render(config)</code>, you pass one plain JavaScript object.
+    That object has a clear contract — every field is known, validated, and purposeful.
+    <br><br>
+    The contract splits cleanly into <strong>two groups</strong>: what to build, and where to put it.
+  </p>
+
+  <!-- Two groups side by side -->
+  <div class="groups">
+
+    <!-- SPEC -->
+    <div class="group-card gc-spec">
+      <div class="group-head">
+        <span class="group-icon">📋</span>
+        <div>
+          <div class="group-title">Group 1 — Spec</div>
+          <div class="group-sub">What to build</div>
+        </div>
+      </div>
+
+      <div class="param">
+        <span class="param-name">type</span><span class="param-type">string</span>
+        <div class="param-desc">Which component to render.<br>
+          <code class="pill">"table.simple"</code> <code class="pill">"form"</code> <code class="pill">"select"</code> <code class="pill">"dataList"</code> <code class="pill">"searchInput"</code>
+        </div>
+      </div>
+
+      <div class="param">
+        <span class="param-name">data</span><span class="param-type">Array</span>
+        <div class="param-desc">Array of row objects. Each object is one data record. See <a href="data-columns.html">Doc 3</a> for full shape.</div>
+      </div>
+
+      <div class="param">
+        <span class="param-name">columns</span><span class="param-type">Array</span>
+        <div class="param-desc">Array of column definition objects — schema, labels, types, widths. See <a href="data-columns.html">Doc 3</a> for full shape.</div>
+      </div>
+
+      <div class="param">
+        <span class="param-name">options</span><span class="param-type">object</span>
+        <div class="param-desc">Feature flags per component type.<br>
+          <code class="pill">showSerial</code> <code class="pill">showSearch</code> <code class="pill">showOptions</code> <code class="pill">title</code> <code class="pill">submitLabel</code> <code class="pill">label</code> <code class="pill">placeholder</code>
+        </div>
+      </div>
+
+      <div class="param">
+        <span class="param-name">showLog</span><span class="param-type">boolean</span>
+        <div class="param-desc">Log internal spec and DOM steps to the browser console. Default: <code class="pill">false</code></div>
+      </div>
+    </div>
+
+    <!-- MOUNT -->
+    <div class="group-card gc-mount">
+      <div class="group-head">
+        <span class="group-icon">📍</span>
+        <div>
+          <div class="group-title">Group 2 — Mount</div>
+          <div class="group-sub">Where to put it</div>
+        </div>
+      </div>
+
+      <div class="param">
+        <span class="param-name">targetHtmlId</span><span class="param-type">string</span>
+        <div class="param-desc">The <code class="pill">id</code> of the HTML element to mount the component into.<br>
+          Internally: <code class="pill">document.getElementById(targetHtmlId)</code>
+        </div>
+      </div>
+
+      <div class="param">
+        <span class="param-name">classToApply</span><span class="param-type">string</span>
+        <div class="param-desc">A CSS class name applied to the rendered root element. Pass <code class="pill">""</code> to skip.</div>
+      </div>
+
+      <div class="param">
+        <span class="param-name">appendPosition</span><span class="param-type">string</span>
+        <div class="param-desc">
+          How to place the component inside the target container.<br>
+          <code class="pill">"replace"</code> — clears the container, then inserts.<br>
+          <code class="pill">"prepend"</code> — inserts before any existing content.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="callout">
+    <p>The guard library (<code>json-renderers-guard</code>) validates both groups before anything is built. If a required field is missing or has the wrong type, it throws clearly — before any DOM work begins.</p>
+  </div>
+
+  <h2>The Full Annotated Call</h2>
+  <p>Here is every field of the contract in one real call, with both groups labeled:</p>
+
+  <div class="code-card">
+    <pre>window.ks.jsonRenderers.<span class="ch">render</span>({
+
+  <span class="cc">// ── Group 1: SPEC — what to build ────────────────</span>
+  <span class="ck">type</span>:    <span class="cs">"table.simple"</span>,
+  <span class="ck">data</span>:    <span class="cv">data</span>,             <span class="cc">// array of row objects</span>
+  <span class="ck">columns</span>: <span class="cv">columns</span>,          <span class="cc">// array of column definitions</span>
+  <span class="ck">options</span>: {
+    <span class="ck">showSerial</span>:  <span class="cb">true</span>,      <span class="cc">// add a # serial column</span>
+    <span class="ck">showSearch</span>:  <span class="cb">true</span>,      <span class="cc">// add a live search bar</span>
+    <span class="ck">showOptions</span>: <span class="cb">true</span>,      <span class="cc">// add a row action button</span>
+  },
+  <span class="ck">showLog</span>: <span class="cb">false</span>,
+
+  <span class="cc">// ── Group 2: MOUNT — where to put it ─────────────</span>
+  <span class="ck">targetHtmlId</span>:   <span class="cs">"dom-render-container"</span>,
+  <span class="ck">classToApply</span>:   <span class="cs">""</span>,
+  <span class="ck">appendPosition</span>: <span class="cs">"replace"</span>,
+
+});</pre>
+  </div>
+
+  <div class="next-nav">
+    <a href="data-columns.html" class="next-card">
+      <div class="next-sub">Next · Doc 3</div>
+      <div class="next-title"><span>Data &amp; Columns in Detail</span><span>→</span></div>
+    </a>
+    <a href="internals.html" class="next-card">
+      <div class="next-sub">Next · Doc 4</div>
+      <div class="next-title"><span>How It Works Inside</span><span>→</span></div>
+    </a>
+    <a href="index.html" class="next-card">
+      <div class="next-sub">Back</div>
+      <div class="next-title"><span>Docs Hub</span><span>→</span></div>
+    </a>
+  </div>
+</div>
+</body>
+</html>
+

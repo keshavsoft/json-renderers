@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What Are We Doing? — json-renderers v22</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:#f8fafc;color:#1e293b;line-height:1.7}
+    pre,code{font-family:'Fira Code',monospace}
+    a{color:#0369a1;text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    .nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid #e2e8f0;padding:13px 24px;display:flex;align-items:center;justify-content:space-between}
+    .nav-left{display:flex;align-items:center;gap:10px;font-weight:700;font-size:14px;color:#0f172a}
+    .nav-logo{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#10b981,#6366f1);display:grid;place-items:center;color:#fff;font-size:14px}
+    .nav-links{display:flex;gap:6px}
+    .nav-links a{font-size:12px;color:#64748b;font-weight:600;padding:5px 11px;border-radius:7px;transition:.15s}
+    .nav-links a:hover{background:#f1f5f9;color:#0f172a;text-decoration:none}
+    .nav-links a.active{background:#e0f2fe;color:#0369a1}
+
+    .wrap{max-width:820px;margin:0 auto;padding:40px 24px 80px}
+
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:#94a3b8;font-family:'Fira Code',monospace;margin-bottom:28px}
+    .breadcrumb span{color:#0369a1;font-weight:600}
+
+    .page-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:99px;background:#e0f2fe;border:1px solid #7dd3fc;color:#0369a1;font-size:11px;font-family:'Fira Code',monospace;font-weight:700;margin-bottom:14px}
+    h1{font-size:clamp(26px,4vw,38px);font-weight:800;color:#0f172a;letter-spacing:-.03em;line-height:1.2;margin-bottom:16px}
+    .lead{font-size:15px;color:#475569;line-height:1.8;margin-bottom:32px;padding-bottom:32px;border-bottom:1px solid #e2e8f0}
+
+    h2{font-size:20px;font-weight:700;color:#0f172a;margin:36px 0 14px;padding-top:8px}
+    p{font-size:14px;color:#475569;line-height:1.8;margin-bottom:14px}
+    strong{color:#0f172a}
+
+    /* Big flow diagram */
+    .flow{display:flex;flex-direction:column;gap:0;margin:28px 0}
+    .flow-row{display:flex;align-items:center;gap:0}
+    .flow-box{flex:1;padding:18px 22px;border-radius:14px;border:2px solid}
+    .flow-arrow{font-size:22px;color:#94a3b8;margin:0 4px;flex-shrink:0;text-align:center;width:32px}
+    .flow-v{text-align:center;font-size:22px;color:#94a3b8;margin:4px 0;padding-left:calc(50% - 12px)}
+
+    .box-data{background:#eff6ff;border-color:#bfdbfe}
+    .box-data .box-label{color:#1d4ed8;font-weight:700;font-size:14px;font-family:'Fira Code',monospace}
+    .box-data .box-sub{color:#3b82f6;font-size:12px;margin-top:4px}
+
+    .box-renderer{background:#ecfdf5;border-color:#6ee7b7}
+    .box-renderer .box-label{color:#065f46;font-weight:800;font-size:15px}
+    .box-renderer .box-sub{color:#10b981;font-size:12px;margin-top:4px;font-family:'Fira Code',monospace}
+
+    .box-dom{background:#faf5ff;border-color:#d8b4fe}
+    .box-dom .box-label{color:#6d28d9;font-weight:700;font-size:14px}
+    .box-dom .box-sub{color:#8b5cf6;font-size:12px;margin-top:4px}
+
+    /* Key insight box */
+    .insight{background:#fff;border:2px solid #10b981;border-radius:14px;padding:20px 24px;margin:28px 0}
+    .insight-label{font-size:11px;font-family:'Fira Code',monospace;font-weight:700;color:#10b981;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+    .insight p{font-size:14px;color:#1e293b;margin:0;line-height:1.7}
+
+    /* Simple analogy */
+    .analogy-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:20px 0}
+    @media(max-width:600px){.analogy-grid{grid-template-columns:1fr}}
+    .analogy-card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px;text-align:center}
+    .analogy-icon{font-size:28px;margin-bottom:8px}
+    .analogy-title{font-size:13px;font-weight:700;color:#0f172a;margin-bottom:4px}
+    .analogy-desc{font-size:12px;color:#64748b;line-height:1.6}
+
+    /* Next nav */
+    .next-nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:48px;padding-top:28px;border-top:1px solid #e2e8f0}
+    .next-card{display:block;padding:16px 18px;border-radius:12px;border:1px solid #e2e8f0;background:#fff;transition:all .2s;color:inherit}
+    .next-card:hover{border-color:#0369a1;transform:translateY(-2px);box-shadow:0 4px 14px rgba(3,105,161,.1);text-decoration:none}
+    .next-sub{font-size:11px;font-family:'Fira Code',monospace;color:#94a3b8;margin-bottom:4px}
+    .next-title{font-size:13px;font-weight:700;color:#0f172a;display:flex;justify-content:space-between}
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-left">
+    <div class="nav-logo">🖥️</div>
+    json-renderers <span style="font-size:11px;background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0;border-radius:99px;padding:2px 8px;font-family:'Fira Code',monospace;margin-left:6px">v22</span>
+  </div>
+  <div class="nav-links">
+    <a href="index.html">Hub</a>
+    <a href="what.html" class="active">What</a>
+    <a href="contract.html">Contract</a>
+    <a href="data-columns.html">Data &amp; Columns</a>
+    <a href="internals.html">Internals</a>
+    <a href="types.html">Types</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <div class="breadcrumb">
+    <a href="index.html" style="color:#94a3b8">docs / v22</a>
+    <span>/</span>
+    <span>what.html</span>
+  </div>
+
+  <div class="page-badge">🎯 Doc 1 · The Idea</div>
+  <h1>What Are We Doing?</h1>
+  <p class="lead">
+    You have <strong>data</strong> — a list of records.<br>
+    You have <strong>columns</strong> — a schema that describes those records.<br>
+    You want a <strong>live UI component</strong> — a table, a form, a dropdown — rendered right into your browser page.<br><br>
+    <code>json-renderers</code> is the single function that makes that happen.
+  </p>
+
+  <h2>The Core Flow</h2>
+  <p>Three things go in. One live DOM component comes out.</p>
+
+  <div class="flow">
+    <div class="flow-row">
+      <div class="flow-box box-data">
+        <div class="box-label">📦 Your Input</div>
+        <div class="box-sub">data + columns + where to put it</div>
+      </div>
+    </div>
+    <div class="flow-v">↓</div>
+    <div class="flow-row">
+      <div class="flow-box box-renderer">
+        <div class="box-label">🖥️ json-renderers</div>
+        <div class="box-sub">render(config) — one function call</div>
+      </div>
+    </div>
+    <div class="flow-v">↓</div>
+    <div class="flow-row">
+      <div class="flow-box box-dom">
+        <div class="box-label">🌐 Live Browser DOM</div>
+        <div class="box-sub">&lt;table&gt;, &lt;form&gt;, &lt;select&gt; ... mounted in your page</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <div class="insight-label">The One-Line Summary</div>
+    <p>You call <code>render(config)</code> and a fully built HTML component appears inside your chosen HTML element. That is the entire job.</p>
+  </div>
+
+  <h2>A Simple Analogy</h2>
+  <p>Think of it like placing an order at a restaurant:</p>
+
+  <div class="analogy-grid">
+    <div class="analogy-card">
+      <div class="analogy-icon">📝</div>
+      <div class="analogy-title">You place the order</div>
+      <div class="analogy-desc">You say: "I want a table, here's my data, here's my schema, put it in this div."</div>
+    </div>
+    <div class="analogy-card">
+      <div class="analogy-icon">🍳</div>
+      <div class="analogy-title">The kitchen cooks it</div>
+      <div class="analogy-desc">Internally the system validates, builds a spec, and creates the DOM elements.</div>
+    </div>
+    <div class="analogy-card">
+      <div class="analogy-icon">🍽️</div>
+      <div class="analogy-title">It arrives at your table</div>
+      <div class="analogy-desc">The finished component is mounted right into the target element on your page.</div>
+    </div>
+  </div>
+
+  <h2>The Minimum Call</h2>
+  <p>This is all you need to get a table on the page:</p>
+  <pre style="background:#0f172a;color:#e2e8f0;padding:20px;border-radius:12px;font-size:13px;line-height:1.8;margin:16px 0">window.ks.jsonRenderers.<span style="color:#34d399;font-weight:700">render</span>({
+  <span style="color:#94a3b8">// What to build</span>
+  type:    <span style="color:#86efac">"table.simple"</span>,
+  data:    data,     <span style="color:#94a3b8">// your records</span>
+  columns: columns,  <span style="color:#94a3b8">// your schema</span>
+
+  <span style="color:#94a3b8">// Where to put it</span>
+  targetHtmlId: <span style="color:#86efac">"my-container"</span>
+});</pre>
+
+  <p>That single call produces a fully rendered, styled table — with headers from your columns and rows from your data — and places it inside <code>#my-container</code>.</p>
+
+  <div class="next-nav">
+    <a href="contract.html" class="next-card">
+      <div class="next-sub">Next · Doc 2</div>
+      <div class="next-title"><span>The Input Contract</span><span>→</span></div>
+    </a>
+    <a href="data-columns.html" class="next-card">
+      <div class="next-sub">Next · Doc 3</div>
+      <div class="next-title"><span>Data &amp; Columns in Detail</span><span>→</span></div>
+    </a>
+    <a href="index.html" class="next-card">
+      <div class="next-sub">Back</div>
+      <div class="next-title"><span>Docs Hub</span><span>→</span></div>
+    </a>
+  </div>
+
+</div>
+</body>
+</html>
+

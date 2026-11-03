@@ -4,14 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>json-renderers | Browser DOM Component Renderer</title>
-  <meta name="description"
-    content="Browser DOM component renderer built on top of json-renderers-build and @keshavsoft/json-to-tag.">
+  <title>json-renderers | Browser DOM Renderer</title>
+  <meta name="description" content="Browser DOM renderer — pass data, columns and a target; get a fully rendered UI component on the page.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -36,415 +33,340 @@
     };
   </script>
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #ffffff;
-      color: #1e293b;
-    }
-
-    pre,
-    code {
-      font-family: 'Fira Code', monospace;
-    }
-
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-
-    .custom-scrollbar::-webkit-scrollbar-track {
-      background: #f1f5f9;
-    }
-
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 4px;
-    }
-
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
-    }
+    body { font-family: 'Inter', sans-serif; background: #ffffff; color: #1e293b; }
+    pre, code { font-family: 'Fira Code', monospace; }
 
     .light-card {
       background: #ffffff;
       border: 1px solid #e2e8f0;
       border-radius: 1.25rem;
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
-      transition: all 0.2s ease-in-out;
+      box-shadow: 0 1px 3px 0 rgba(0,0,0,0.04);
+      transition: box-shadow 0.2s ease;
     }
+    .light-card:hover { box-shadow: 0 8px 20px -4px rgba(0,0,0,0.08); }
 
-    .light-card:hover {
-      box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.06);
+    .code-block {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 0.875rem;
+      padding: 1.25rem 1.5rem;
+      font-size: 0.8rem;
+      line-height: 1.8;
+      overflow-x: auto;
     }
+    .token-key    { color: #64748b; }
+    .token-str    { color: #059669; }
+    .token-val    { color: #7c3aed; }
+    .token-bool   { color: #d97706; }
+    .token-comment{ color: #94a3b8; font-style: italic; }
+    .token-section{ color: #0f172a; font-weight: 700; }
+
+    .param-row-spec  { border-left: 3px solid #6366f1; }
+    .param-row-mount { border-left: 3px solid #10b981; }
   </style>
 </head>
 
-<body
-  class="bg-white text-slate-800 min-h-screen antialiased flex flex-col font-sans selection:bg-emerald-500 selection:text-white">
+<body class="bg-white text-slate-800 min-h-screen antialiased flex flex-col font-sans">
 
-  <!-- Top Sticky Navbar -->
+  <!-- Navbar -->
   <header class="border-b border-slate-200 bg-white/95 backdrop-blur sticky top-0 z-50 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between gap-4">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between gap-4">
       <div class="flex items-center gap-3">
-        <a href="index.html"
-          class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 via-teal-600 to-indigo-600 flex items-center justify-center font-bold text-white shadow-md text-lg hover:scale-105 transition">
-          🖥️
-        </a>
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 via-teal-600 to-indigo-600 flex items-center justify-center font-bold text-white text-lg shadow-md">🖥️</div>
         <div>
           <div class="flex items-center gap-2">
-            <a href="index.html"
-              class="text-base font-bold text-slate-900 tracking-tight hover:text-emerald-600 transition">json-renderers</a>
-            <span
-              class="px-2 py-0.5 text-xs bg-emerald-50 text-emerald-800 rounded-full border border-emerald-200 font-mono font-medium">v14.0</span>
+            <span class="text-base font-bold text-slate-900 tracking-tight">json-renderers</span>
+            <span class="px-2 py-0.5 text-xs bg-emerald-50 text-emerald-800 rounded-full border border-emerald-200 font-mono font-semibold">v22</span>
           </div>
-          <p class="text-xs text-slate-500">Browser DOM Component Renderer Runtime</p>
+          <p class="text-xs text-slate-500">Browser DOM Renderer Runtime</p>
         </div>
       </div>
-
-      <nav class="flex items-center gap-1.5 sm:gap-2 text-sm">
-        <a href="samples/index.html"
-          class="px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-teal-600 hover:bg-teal-700 text-white transition flex items-center gap-1.5 shadow-sm">
-          <span>📦</span> Samples Hub
-        </a>
-        <a href="subDoc/index.html"
-          class="px-3 py-1.5 text-xs font-medium rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 transition">
-          Sub Docs
-        </a>
-
-        <a href="https://github.com/keshavsoft/json-renderers" target="_blank" rel="noopener noreferrer"
-          class="px-3 py-1.5 text-xs font-medium rounded-lg bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 transition flex items-center gap-1.5 shadow-xs">
-          <svg class="w-4 h-4 fill-current text-slate-800" viewBox="0 0 24 24">
-            <path
-              d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-          </svg>
-          <span class="hidden lg:inline font-semibold">GitHub</span>
+      <nav class="flex items-center gap-2 text-sm">
+        <a href="https://github.com/keshavsoft/json-renderers" target="_blank"
+          class="px-3 py-1.5 text-xs font-medium rounded-lg bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 transition flex items-center gap-1.5">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
         </a>
       </nav>
     </div>
   </header>
 
-  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-12 bg-white">
+  <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-14">
 
-    <!-- Hero Section -->
-    <section class="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 text-center space-y-4 shadow-sm">
-      <div
-        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 font-mono font-semibold">
+    <!-- Hero -->
+    <section class="rounded-3xl border border-slate-200 bg-white p-8 sm:p-12 text-center space-y-5 shadow-sm">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 font-mono font-semibold">
         <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-        Declarative DOM Mounting Runtime
+        v22 · Browser DOM Mounting Runtime
       </div>
-
       <h1 class="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
-        Render Business JSON into Live DOM <br class="hidden sm:inline" />
+        Pass data &amp; columns.<br>
         <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-teal-600 to-indigo-600">
-          Powered by json-renderers-build + json-to-tag
+          Get a live component on the page.
         </span>
       </h1>
+      <p class="max-w-2xl mx-auto text-slate-600 text-sm sm:text-base leading-relaxed">
+        <strong class="text-slate-900">json-renderers</strong> is one function — <code class="text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200 text-xs font-mono">render(config)</code> — that accepts a plain object, builds a component spec, converts it to DOM nodes, and mounts it into your target HTML element.
+      </p>
+    </section>
 
-      <p class="max-w-3xl mx-auto text-slate-700 text-sm sm:text-base leading-relaxed">
-        The real DOM creation happens in <strong
-          class="text-emerald-700 font-mono font-semibold">@keshavsoft/json-to-tag</strong>.
-        Before that, component blueprints are prepared in <strong
-          class="text-indigo-700 font-mono font-semibold">json-renderers-build</strong>, and
-        <strong class="text-slate-900 font-bold">json-renderers</strong> orchestrates the runtime flow and mounts the
-        final
-        HTML into your browser container.
-      <div class="pt-2 flex justify-center gap-3 flex-wrap">
-        <a href="https://keshavsoft.github.io/dom-builder/" target="_blank"
-          class="px-5 py-2.5 text-sm font-semibold rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white transition flex items-center gap-2 shadow-md hover:scale-105">
-          <span>🌐</span> Explore Interactive Demos &amp; Playground (dom-builder) &rarr;
-        </a>
+    <!-- The Input Contract -->
+    <section class="space-y-8">
+      <div class="border-b border-slate-200 pb-4">
+        <span class="text-xs uppercase font-mono tracking-wider text-indigo-700 font-bold">The Core Story</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-1">The Input Contract</h2>
+        <p class="text-sm text-slate-500 mt-1">Everything you send into <code class="font-mono text-indigo-600">render()</code> falls into two clear groups.</p>
+      </div>
+
+      <!-- Two Groups -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- Group 1: Spec -->
+        <div class="light-card p-6 space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center text-xl font-bold">📋</div>
+            <div>
+              <h3 class="text-base font-bold text-slate-900">Group 1 — Spec</h3>
+              <span class="text-xs text-indigo-600 font-mono font-semibold">What to build</span>
+            </div>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Describes <em>which component</em> to render and <em>what data</em> to populate it with.
+            This group is handed to <code class="font-mono text-indigo-700 bg-indigo-50 px-1 rounded text-[11px]">json-renderers-specs</code> to produce the JSON AST.
+          </p>
+
+          <div class="space-y-2">
+            <!-- type -->
+            <div class="param-row-spec bg-slate-50 rounded-lg px-4 py-3 flex items-start justify-between gap-4">
+              <div>
+                <code class="text-sm font-mono font-bold text-indigo-700">type</code>
+                <span class="ml-2 text-[10px] font-mono text-slate-400">string</span>
+                <p class="text-xs text-slate-600 mt-0.5">Which component to render.<br>
+                  <span class="font-mono text-indigo-600 text-[11px]">"table.simple" | "form" | "select" | "dataList" | "searchInput"</span>
+                </p>
+              </div>
+            </div>
+            <!-- data -->
+            <div class="param-row-spec bg-slate-50 rounded-lg px-4 py-3">
+              <code class="text-sm font-mono font-bold text-indigo-700">data</code>
+              <span class="ml-2 text-[10px] font-mono text-slate-400">Array</span>
+              <p class="text-xs text-slate-600 mt-0.5">Your data records — array of row objects.</p>
+            </div>
+            <!-- columns -->
+            <div class="param-row-spec bg-slate-50 rounded-lg px-4 py-3">
+              <code class="text-sm font-mono font-bold text-indigo-700">columns</code>
+              <span class="ml-2 text-[10px] font-mono text-slate-400">Array</span>
+              <p class="text-xs text-slate-600 mt-0.5">Column definitions — schema, labels, types, widths, placeholders.</p>
+            </div>
+            <!-- options -->
+            <div class="param-row-spec bg-slate-50 rounded-lg px-4 py-3">
+              <code class="text-sm font-mono font-bold text-indigo-700">options</code>
+              <span class="ml-2 text-[10px] font-mono text-slate-400">object</span>
+              <p class="text-xs text-slate-600 mt-0.5">Feature flags for the component.<br>
+                <span class="font-mono text-indigo-600 text-[11px]">showSerial · showSearch · showOptions · title · submitLabel · label · placeholder</span>
+              </p>
+            </div>
+            <!-- showLog -->
+            <div class="param-row-spec bg-slate-50 rounded-lg px-4 py-3">
+              <code class="text-sm font-mono font-bold text-indigo-700">showLog</code>
+              <span class="ml-2 text-[10px] font-mono text-slate-400">boolean</span>
+              <p class="text-xs text-slate-600 mt-0.5">Logs internal spec and DOM steps to the console. Default: <code class="font-mono text-[11px]">false</code></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Group 2: Mount -->
+        <div class="light-card p-6 space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl font-bold">📍</div>
+            <div>
+              <h3 class="text-base font-bold text-slate-900">Group 2 — Mount</h3>
+              <span class="text-xs text-emerald-600 font-mono font-semibold">Where to put it</span>
+            </div>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Describes <em>where</em> in the DOM to place the rendered component and <em>how</em> to place it.
+            This group is used directly by <code class="font-mono text-emerald-700 bg-emerald-50 px-1 rounded text-[11px]">json-renderers</code> when mounting.
+          </p>
+
+          <div class="space-y-2">
+            <!-- targetHtmlId -->
+            <div class="param-row-mount bg-slate-50 rounded-lg px-4 py-3">
+              <code class="text-sm font-mono font-bold text-emerald-700">targetHtmlId</code>
+              <span class="ml-2 text-[10px] font-mono text-slate-400">string</span>
+              <p class="text-xs text-slate-600 mt-0.5">The <code class="font-mono text-[11px]">id</code> of the HTML element to mount into.<br>
+                <span class="text-slate-400 text-[11px]">Internally: <code class="font-mono">document.getElementById(targetHtmlId)</code></span>
+              </p>
+            </div>
+            <!-- classToApply -->
+            <div class="param-row-mount bg-slate-50 rounded-lg px-4 py-3">
+              <code class="text-sm font-mono font-bold text-emerald-700">classToApply</code>
+              <span class="ml-2 text-[10px] font-mono text-slate-400">string</span>
+              <p class="text-xs text-slate-600 mt-0.5">A CSS class added to the rendered root element. Pass <code class="font-mono text-[11px]">""</code> to skip.</p>
+            </div>
+            <!-- appendPosition -->
+            <div class="param-row-mount bg-slate-50 rounded-lg px-4 py-3">
+              <code class="text-sm font-mono font-bold text-emerald-700">appendPosition</code>
+              <span class="ml-2 text-[10px] font-mono text-slate-400">string</span>
+              <p class="text-xs text-slate-600 mt-0.5">
+                How to place the component inside the target container.<br>
+                <span class="font-mono text-emerald-700 text-[11px]">"replace"</span> — clears the container and replaces its content.<br>
+                <span class="font-mono text-emerald-700 text-[11px]">"prepend"</span> — inserts before existing content.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- Simple House-Building Story Section (From subDoc/simpleDoc.html) -->
-    <section id="house-story" class="space-y-6">
-      <div class="border-b border-slate-200 pb-4 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
-        <div>
-          <span class="text-xs uppercase font-mono tracking-wider text-emerald-700 font-bold">Conceptual Mental
-            Model</span>
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-1">Simple House-Building Story
-          </h2>
-        </div>
-        <a href="subDoc/simpleDoc.html"
-          class="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-700 hover:text-emerald-800 font-mono transition">
-          <span>📖</span> Full simpleDoc.html &rarr;
-        </a>
+    <!-- Full Code Example -->
+    <section class="space-y-5">
+      <div class="border-b border-slate-200 pb-4">
+        <span class="text-xs uppercase font-mono tracking-wider text-teal-700 font-bold">Live Sample · tableWithSearch</span>
+        <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight mt-1">The Full Call — Annotated</h2>
       </div>
 
-      <!-- Lead Narrative Box -->
-      <div class="bg-white p-6 rounded-2xl border border-slate-200 space-y-3 shadow-xs">
-        <p class="text-sm text-slate-700 leading-relaxed">
-          <strong class="text-slate-900 font-semibold">json-renderers</strong> is the browser runtime layer in the
-          KeshavSoft declarative UI ecosystem. It accepts render configuration, obtains a JSON description of the
-          requested component, asks <code
-            class="text-purple-700 font-mono bg-purple-50 px-1.5 py-0.5 rounded border border-purple-200">@keshavsoft/json-to-tag</code>
-          to create DOM nodes, and mounts the result in the requested browser container.
-        </p>
-        <p class="text-xs text-slate-600 leading-relaxed">
-          It is an orchestration layer rather than the specification compiler itself. The component structure is
-          prepared upstream by <code
-            class="text-indigo-700 font-mono bg-indigo-50 px-1.5 py-0.5 rounded border border-indigo-200">json-renderers-build</code>;
-          actual element construction is delegated to <code
-            class="text-purple-700 font-mono bg-purple-50 px-1.5 py-0.5 rounded border border-purple-200">@keshavsoft/json-to-tag</code>.
-        </p>
-      </div>
-
-      <!-- 3 Roles Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-        <!-- Role 1: The Architect -->
-        <div class="light-card p-6 space-y-3 bg-white">
-          <div class="flex items-center justify-between">
-            <span
-              class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center text-xl font-bold">
-              🏗️
-            </span>
-            <span
-              class="text-xs font-mono px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-800 border border-indigo-200 font-semibold">
-              Step 1 &bull; Blueprint
-            </span>
-          </div>
-          <div>
-            <h3 class="text-base font-bold text-slate-900">json-renderers-build</h3>
-            <span class="text-xs font-semibold text-indigo-600 font-mono">The Architect</span>
-          </div>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Prepares a clean JSON blueprint specifying tags, classes, and attributes without touching real browser DOM
-            elements.
-          </p>
-          <div
-            class="bg-white p-2.5 rounded-lg border border-slate-200 text-[11px] font-mono text-indigo-700 font-medium">
-            Returns: specAsJsonToDom AST
-          </div>
-        </div>
-
-        <!-- Role 2: The Construction Worker -->
-        <div class="light-card p-6 space-y-3 bg-white">
-          <div class="flex items-center justify-between">
-            <span
-              class="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center text-xl font-bold">
-              🔨
-            </span>
-            <span
-              class="text-xs font-mono px-2.5 py-0.5 rounded-full bg-purple-50 text-purple-800 border border-purple-200 font-semibold">
-              Step 2 &bull; Elements
-            </span>
-          </div>
-          <div>
-            <h3 class="text-base font-bold text-slate-900">@keshavsoft/json-to-tag</h3>
-            <span class="text-xs font-semibold text-purple-600 font-mono">The Construction Worker</span>
-          </div>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Reads the JSON blueprint and creates real native browser HTML elements using <code
-              class="text-purple-700 font-mono font-semibold">document.createElement()</code>.
-          </p>
-          <div
-            class="bg-white p-2.5 rounded-lg border border-slate-200 text-[11px] font-mono text-purple-700 font-medium">
-            Returns: native DOM elements
-          </div>
-        </div>
-
-        <!-- Role 3: The Site Manager -->
-        <div class="light-card p-6 space-y-3 border-emerald-300 bg-white">
-          <div class="flex items-center justify-between">
-            <span
-              class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl font-bold">
-              📋
-            </span>
-            <span
-              class="text-xs font-mono px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 font-semibold">
-              Step 3 &bull; Mount
-            </span>
-          </div>
-          <div>
-            <h3 class="text-base font-bold text-slate-900">json-renderers</h3>
-            <span class="text-xs font-semibold text-emerald-700 font-mono">The Site Manager</span>
-          </div>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Puts those constructed elements in the correct target position on the webpage (<code
-              class="text-emerald-700 font-mono font-semibold">targetHtmlId</code>) and manages placement.
-          </p>
-          <div
-            class="bg-white p-2.5 rounded-lg border border-slate-200 text-[11px] font-mono text-emerald-700 font-medium">
-            container.append(content)
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Golden Rule "Remember" Callout Box -->
-      <div class="p-4 sm:p-5 rounded-2xl bg-white border-2 border-emerald-300 text-center shadow-xs">
-        <span class="text-xs font-mono uppercase tracking-wider text-emerald-800 font-bold block mb-1">Golden Rule to
-          Remember</span>
-        <p class="text-sm sm:text-base font-bold text-slate-900 tracking-wide">
-          Build prepares the blueprint &rarr; json-to-tag creates the DOM &rarr; json-renderers mounts it on the page.
-        </p>
+      <div class="code-block font-mono text-sm leading-8">
+        <span class="token-comment">// samples/v22/tableWithSearch/index.js</span><br>
+        <br>
+        <span class="token-key">window.ks.jsonRenderers.</span><span class="text-teal-600 font-bold">render</span>({<br>
+        <br>
+        &nbsp;&nbsp;<span class="token-comment">// ── SPEC: what to build ───────────────────────────</span><br>
+        &nbsp;&nbsp;<span class="token-key">type</span>:    <span class="token-str">"table.simple"</span>,<br>
+        &nbsp;&nbsp;<span class="token-key">data</span>:    <span class="token-val">data</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="token-comment">// ← your row objects array</span><br>
+        &nbsp;&nbsp;<span class="token-key">columns</span>: <span class="token-val">columns</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="token-comment">// ← your column definitions array</span><br>
+        &nbsp;&nbsp;<span class="token-key">options</span>: {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="token-key">showSerial</span>:  <span class="token-bool">true</span>,&nbsp;&nbsp;&nbsp;&nbsp;<span class="token-comment">// adds a # serial column</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="token-key">showSearch</span>:  <span class="token-bool">true</span>,&nbsp;&nbsp;&nbsp;&nbsp;<span class="token-comment">// adds a live search bar</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="token-key">showOptions</span>: <span class="token-bool">true</span>,&nbsp;&nbsp;&nbsp;&nbsp;<span class="token-comment">// adds a row-level action button</span><br>
+        &nbsp;&nbsp;},<br>
+        &nbsp;&nbsp;<span class="token-key">showLog</span>: <span class="token-bool">false</span>,<br>
+        <br>
+        &nbsp;&nbsp;<span class="token-comment">// ── MOUNT: where to put it ────────────────────────</span><br>
+        &nbsp;&nbsp;<span class="token-key">targetHtmlId</span>:   <span class="token-str">"dom-render-container"</span>,<br>
+        &nbsp;&nbsp;<span class="token-key">classToApply</span>:   <span class="token-str">""</span>,<br>
+        &nbsp;&nbsp;<span class="token-key">appendPosition</span>: <span class="token-str">"replace"</span>,<br>
+        <br>
+        });<br>
       </div>
     </section>
 
-    <!-- Component Guides & Samples Hub Showcase Section -->
+    <!-- Supported Types -->
     <section class="space-y-6">
-      <div class="border-b border-slate-200 pb-4 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
-        <div>
-          <span class="text-xs uppercase font-mono tracking-wider text-teal-700 font-bold">Explore Documentation</span>
-          <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight mt-1">Explore the 3 Component
-            Suites</h2>
-        </div>
-        <a href="samples/index.html"
-          class="inline-flex items-center gap-1.5 text-xs font-semibold text-teal-700 hover:text-teal-800 font-mono transition">
-          <span>📦</span> Open Samples Hub &rarr;
-        </a>
+      <div class="border-b border-slate-200 pb-4">
+        <span class="text-xs uppercase font-mono tracking-wider text-purple-700 font-bold">Component Types</span>
+        <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight mt-1">What Can You Render?</h2>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 
-        <!-- Table Card -->
-        <div class="light-card p-6 flex flex-col justify-between space-y-4">
-          <div class="space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-2xl">📊</span>
-              <span
-                class="text-xs font-mono px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 font-semibold">&lt;table&gt;</span>
-            </div>
-            <h3 class="text-base font-bold text-slate-900">Table Renderer</h3>
-            <p class="text-xs text-slate-600 leading-relaxed">
-              Multi-column tabular data rendering from JSON row objects with hover states and column configurations.
-            </p>
+        <div class="light-card p-5 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xl">📊</span>
+            <span class="text-[11px] font-mono px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 font-semibold">table.simple</span>
           </div>
-          <div class="space-y-1.5 pt-3 border-t border-slate-100">
-            <a href="samples/table/index.html"
-              class="block text-xs font-semibold text-emerald-700 hover:underline transition">
-              &bull; HTML Process &amp; Story &rarr;
-            </a>
-            <a href="samples/table/cdn.html"
-              class="block text-xs font-semibold text-slate-600 hover:text-slate-900 transition">
-              &bull; Using CDN (ES Modules) &rarr;
-            </a>
-            <a href="samples/table/windowKs.html"
-              class="block text-xs font-semibold text-slate-600 hover:text-slate-900 transition">
-              &bull; window.ks Global Runtime &rarr;
-            </a>
-          </div>
+          <h4 class="text-sm font-bold text-slate-900">Simple Table</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">Data table with headers and rows. Use <code class="font-mono text-[11px] text-emerald-700">showSerial</code>, <code class="font-mono text-[11px] text-emerald-700">showSearch</code>, <code class="font-mono text-[11px] text-emerald-700">showOptions</code> flags.</p>
         </div>
 
-        <!-- Select Card -->
-        <div class="light-card p-6 flex flex-col justify-between space-y-4">
-          <div class="space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-2xl">▣</span>
-              <span
-                class="text-xs font-mono px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-800 border border-blue-200 font-semibold">&lt;select&gt;</span>
-            </div>
-            <h3 class="text-base font-bold text-slate-900">Select Renderer</h3>
-            <p class="text-xs text-slate-600 leading-relaxed">
-              Native dropdown components populated from string or object arrays with live change tracking.
-            </p>
+        <div class="light-card p-5 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xl">📝</span>
+            <span class="text-[11px] font-mono px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-800 border border-indigo-200 font-semibold">form</span>
           </div>
-          <div class="space-y-1.5 pt-3 border-t border-slate-100">
-            <a href="samples/select/index.html"
-              class="block text-xs font-semibold text-blue-700 hover:underline transition">
-              &bull; HTML Process &amp; Story &rarr;
-            </a>
-            <a href="samples/select/cdn.html"
-              class="block text-xs font-semibold text-slate-600 hover:text-slate-900 transition">
-              &bull; Using CDN (ES Modules) &rarr;
-            </a>
-            <a href="samples/select/windowks.html"
-              class="block text-xs font-semibold text-slate-600 hover:text-slate-900 transition">
-              &bull; window.ks Global Runtime &rarr;
-            </a>
-          </div>
+          <h4 class="text-sm font-bold text-slate-900">Form</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">Input form, fields from <code class="font-mono text-[11px]">columns</code>, pre-filled from <code class="font-mono text-[11px]">data[0]</code>. Options: <code class="font-mono text-[11px] text-indigo-700">title</code>, <code class="font-mono text-[11px] text-indigo-700">submitLabel</code>.</p>
         </div>
 
-        <!-- Datalist Card -->
-        <div class="light-card p-6 flex flex-col justify-between space-y-4">
-          <div class="space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-2xl">🔍</span>
-              <span
-                class="text-xs font-mono px-2.5 py-0.5 rounded-full bg-purple-50 text-purple-800 border border-purple-200 font-semibold">&lt;datalist&gt;</span>
-            </div>
-            <h3 class="text-base font-bold text-slate-900">Datalist Renderer</h3>
-            <p class="text-xs text-slate-600 leading-relaxed">
-              Native browser search autocomplete popovers linked to input controls without heavy plugins.
-            </p>
+        <div class="light-card p-5 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xl">▣</span>
+            <span class="text-[11px] font-mono px-2 py-0.5 rounded-full bg-blue-50 text-blue-800 border border-blue-200 font-semibold">select</span>
           </div>
-          <div class="space-y-1.5 pt-3 border-t border-slate-100">
-            <a href="samples/datalist/index.html"
-              class="block text-xs font-semibold text-purple-700 hover:underline transition">
-              &bull; HTML Process &amp; Story &rarr;
-            </a>
-            <a href="samples/datalist/cdn.html"
-              class="block text-xs font-semibold text-slate-600 hover:text-slate-900 transition">
-              &bull; Using CDN (ES Modules) &rarr;
-            </a>
-            <a href="samples/datalist/windowks.html"
-              class="block text-xs font-semibold text-slate-600 hover:text-slate-900 transition">
-              &bull; window.ks Global Runtime &rarr;
-            </a>
+          <h4 class="text-sm font-bold text-slate-900">Select Dropdown</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">Dropdown auto-targeted to the <code class="font-mono text-[11px]">select</code>-type column in your schema.</p>
+        </div>
+
+        <div class="light-card p-5 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xl">🔍</span>
+            <span class="text-[11px] font-mono px-2 py-0.5 rounded-full bg-purple-50 text-purple-800 border border-purple-200 font-semibold">dataList</span>
           </div>
+          <h4 class="text-sm font-bold text-slate-900">DataList Autocomplete</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">Native browser autocomplete input, populated from your data.</p>
+        </div>
+
+        <div class="light-card p-5 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xl">🔎</span>
+            <span class="text-[11px] font-mono px-2 py-0.5 rounded-full bg-teal-50 text-teal-800 border border-teal-200 font-semibold">searchInput</span>
+          </div>
+          <h4 class="text-sm font-bold text-slate-900">Search Input</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">Standalone search bar. Options: <code class="font-mono text-[11px] text-teal-700">label</code>, <code class="font-mono text-[11px] text-teal-700">placeholder</code>.</p>
         </div>
 
       </div>
     </section>
 
-    <!-- Quick CDN & Installation Code -->
-    <section class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 space-y-4 shadow-sm">
-      <h2 class="text-base font-bold text-slate-900 uppercase tracking-wider font-mono flex items-center gap-2">
-        <span>📦</span> Installation &amp; Distribution
+    <!-- Global Registration -->
+    <section class="bg-slate-50 rounded-3xl border border-slate-200 p-6 sm:p-8 space-y-4">
+      <h2 class="text-base font-bold text-slate-900 font-mono flex items-center gap-2">
+        <span>🌐</span> Global Registration
       </h2>
+      <p class="text-xs text-slate-600">When loaded via <code class="font-mono text-[11px]">&lt;script type="module"&gt;</code>, the renderer is available on the global namespace:</p>
+      <div class="code-block">
+        <span class="token-key">window.ks.jsonRenderers</span> = {<br>
+        &nbsp;&nbsp;<span class="token-key">meta</span>: { <span class="token-key">version</span>: <span class="token-str">"1.22.1"</span> },<br>
+        &nbsp;&nbsp;<span class="token-key">render</span>: <span class="token-val">[Function]</span><br>
+        };
+      </div>
+    </section>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label class="text-xs text-slate-700 mb-1.5 block font-mono font-semibold">NPM Package:</label>
-          <pre
-            class="p-3.5 bg-white rounded-xl text-xs text-slate-900 font-mono border border-slate-200 overflow-x-auto shadow-xs"><code><span class="text-indigo-600 font-bold">npm</span> install json-renderers</code></pre>
-        </div>
-
-        <div>
-          <label class="text-xs text-slate-700 mb-1.5 block font-mono font-semibold">ES Module CDN:</label>
-          <pre
-            class="p-3.5 bg-white rounded-xl text-xs text-slate-900 font-mono border border-slate-200 overflow-x-auto shadow-xs"><code><span class="text-indigo-600 font-bold">import</span> render <span class="text-indigo-600 font-bold">from</span> <span class="text-emerald-700">"https://cdn.jsdelivr.net/gh/keshavsoft/json-renderers@main/docs/dist/v14/min.js"</span>;</code></pre>
-        </div>
+    <!-- Project Structure -->
+    <section class="space-y-5">
+      <div class="border-b border-slate-200 pb-4">
+        <span class="text-xs uppercase font-mono tracking-wider text-slate-500 font-bold">Codebase</span>
+        <h2 class="text-xl font-extrabold text-slate-900 tracking-tight mt-1">Project Structure (v22)</h2>
+      </div>
+      <div class="code-block text-xs leading-7">
+        json-renderers/<br>
+        ├── <span class="text-indigo-600 font-semibold">src/</span><br>
+        │&nbsp;&nbsp; ├── index.js&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="token-comment">← entry point, routes to v22</span><br>
+        │&nbsp;&nbsp; └── <span class="text-emerald-600 font-bold">v22/</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="token-comment">← current version (1.22.1)</span><br>
+        │&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ├── index.js&nbsp;&nbsp;&nbsp;&nbsp;<span class="token-comment">← orchestrator: guard → buildSpec → jsonToDom → mount</span><br>
+        │&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ├── buildSpec/&nbsp;&nbsp;<span class="token-comment">← calls json-renderers-specs, returns JSON AST</span><br>
+        │&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ├── registerGlobal.js&nbsp;<span class="token-comment">← attaches window.ks.jsonRenderers</span><br>
+        │&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; └── meta.js&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="token-comment">← version: 1.22.1</span><br>
+        ├── <span class="text-teal-600 font-semibold">samples/v22/</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="token-comment">← runnable samples, one per type</span><br>
+        │&nbsp;&nbsp; ├── common/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="token-comment">← shared data.json + columns.json</span><br>
+        │&nbsp;&nbsp; ├── table/<br>
+        │&nbsp;&nbsp; ├── tableWithSearch/<br>
+        │&nbsp;&nbsp; ├── form/<br>
+        │&nbsp;&nbsp; ├── select/<br>
+        │&nbsp;&nbsp; ├── dataList/<br>
+        │&nbsp;&nbsp; └── searchInput/<br>
+        └── <span class="text-purple-600 font-semibold">docs/dist/v22/min.js</span>&nbsp;<span class="token-comment">← production bundle</span><br>
       </div>
     </section>
 
   </main>
 
-  <!-- Clean Light Footer -->
-  <footer class="border-t border-slate-200 bg-white py-8 text-center text-xs text-slate-600">
-    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div>
-        <strong class="text-slate-900">json-renderers</strong> &bull; KeshavSoft &bull; MIT License
-      </div>
-      <div class="flex items-center gap-4 text-slate-600 flex-wrap">
-        <a href="samples/index.html" class="hover:text-teal-700 transition font-semibold">Samples Hub</a>
-        <a href="subDoc/index.html" class="hover:text-purple-700 transition font-medium">SubDoc Hub</a>
-        <a href="subDoc/simpleDoc.html" class="hover:text-emerald-700 transition">Simple Guide</a>
-        <a href="subDoc/advanceDoc.html" class="hover:text-purple-700 transition">Advanced Guide</a>
-        <span class="text-slate-300 hidden sm:inline">|</span>
-        <a href="https://github.com/keshavsoft/json-renderers" target="_blank" rel="noopener noreferrer"
-          class="hover:text-slate-900 transition font-medium">GitHub</a>
-      </div>
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 bg-white py-8 text-center text-xs text-slate-500">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div><strong class="text-slate-900">json-renderers</strong> &bull; KeshavSoft &bull; MIT License &bull; v22</div>
+      <a href="https://github.com/keshavsoft/json-renderers" target="_blank" rel="noopener noreferrer"
+        class="hover:text-slate-900 transition font-medium">GitHub →</a>
     </div>
   </footer>
 
-  <!-- Module Preloader Script -->
   <script type="module">
     try {
-      await import("./dist/v14/min.js");
-    } catch {
-      try {
-        await import("./dist/v13/min.js");
-      } catch {
-        try {
-          await import("https://cdn.jsdelivr.net/gh/keshavsoft/json-renderers@main/docs/dist/v14/min.js");
-        } catch (err) {
-          console.warn("Could not pre-load dist bundle.", err);
-        }
-      }
+      await import("./dist/v22/min.js");
+    } catch (err) {
+      console.warn("Could not pre-load dist bundle.", err);
     }
   </script>
-</body>
 
+</body>
 </html>
