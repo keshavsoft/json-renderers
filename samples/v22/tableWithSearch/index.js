@@ -1,4 +1,4 @@
-import render from "../../docs/dist/v2/min.js";
+import render from "../../../docs/dist/v22/min.js";
 import "https://keshavsoft.github.io/json-to-dom/dist/v42/min.js";
 
 // Single common source of data and columns
@@ -9,7 +9,7 @@ const container = document.getElementById("dom-render-container");
 
 const start = () => {
     try {
-        const spec = render({
+        window.ks.jsonRenderers.render({
             type: "table.simple",
             data,
             columns,
@@ -17,13 +17,8 @@ const start = () => {
                 showSerial: true,
                 showSearch: true,
                 showOptions: true
-            }
-        });
-
-        window.ks.jsonToDom.appendToDom({
-            jsonSpec: spec,
+            },
             targetHtmlId: "dom-render-container",
-            options: {},
             classToApply: "",
             appendPosition: "replace",
         });
@@ -35,4 +30,3 @@ const start = () => {
 };
 
 start();
-

@@ -18,7 +18,6 @@ const start = () => {
                 showOptions: true
             },
             targetHtmlId: "dom-render-container",
-            options: {},
             classToApply: "",
             appendPosition: "replace",
         });

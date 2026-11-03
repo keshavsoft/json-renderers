@@ -1,4 +1,4 @@
-import render from "../docs/dist/v2/min.js";
+import render from "../../docs/dist/v22/min.js";
 import "https://keshavsoft.github.io/json-to-dom/dist/v42/min.js";
 import { buildSpecElement } from "https://keshavsoft.github.io/json-to-tag/dist/v9/min.js";
 
