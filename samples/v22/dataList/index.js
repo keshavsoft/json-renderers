@@ -1,5 +1,5 @@
 import render from "../../../docs/dist/v22/min.js";
-import { buildSpecElement } from "https://keshavsoft.github.io/json-to-tag/dist/v9/min.js";
+import "https://keshavsoft.github.io/json-to-dom/dist/v42/min.js";
 
 // Single common source of data and columns
 import data from "../common/data.json" with { type: "json" };
@@ -9,19 +9,14 @@ const container = document.getElementById("dom-render-container");
 
 const start = () => {
     try {
-        // Only type is defined here - automatically picks itemName from columns & data!
-        const spec = render({
+        window.ks.jsonRenderers.render({
             type: "dataList",
             data,
-            columns
+            columns,
+            targetHtmlId: "dom-render-container",
+            classToApply: "",
+            appendPosition: "replace",
         });
-
-        const buildFunc = buildSpecElement || window.ks?.jsonToTag?.buildSpecElement;
-        if (buildFunc) {
-            const el = buildFunc(spec);
-            const elements = Array.isArray(el) ? el : [el];
-            container.replaceChildren(...elements);
-        }
 
     } catch (err) {
         console.error("Render error:", err);
